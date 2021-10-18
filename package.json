@@ -4,9 +4,15 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint 'src/**'"
+    "lint": "eslint 'src/**'",
+    "test": "jest --passWithNoTests --no-cache --runInBand",
+    "test:watch": "yarn test -- --watch",
+    "test:staged": "yarn test -- --findRelatedTests",
+    "test:ci": "yarn test -- --coverage"
   },
   "devDependencies": {
+    "@types/jest": "^27.0.2",
+    "@types/node": "^16.11.1",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "eslint": "^8.0.1",
     "eslint-config-standard-with-typescript": "^21.0.1",
@@ -17,7 +23,9 @@
     "eslint-plugin-unused-imports": "^1.1.5",
     "git-commit-msg-linter": "^3.2.8",
     "husky": "^7.0.2",
+    "jest": "^27.3.0",
     "lint-staged": "^11.2.3",
+    "ts-jest": "^27.0.7",
     "typescript": "^4.4.4"
   }
 }
