@@ -17,5 +17,6 @@ export type HttpMethod = 'POST'
 
 export enum HttpStatusCode {
   UNAUTHORIZED = 401,
+  BAD_REQUEST = 400,
   SUCCESS = 200
 }
