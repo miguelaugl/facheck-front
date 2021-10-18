@@ -1,5 +1,6 @@
 {
   "*.{ts,tsx}": [
-    "yarn lint --fix"
+    "yarn lint --fix",
+    "yarn test:staged"
   ]
 }
