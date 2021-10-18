@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
-    "git-commit-msg-linter": "^3.2.8"
+    "git-commit-msg-linter": "^3.2.8",
+    "typescript": "^4.4.4"
   }
 }
