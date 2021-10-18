@@ -17,11 +17,24 @@ class HttpClientSpy implements HttpClient {
   }
 }
 
+type SutTypes = {
+  sut: RemoteAuthentication
+  httpClientSpy: HttpClientSpy
+}
+
+const makeSut = (url = faker.internet.url()): SutTypes => {
+  const httpClientSpy = new HttpClientSpy()
+  const sut = new RemoteAuthentication(url, httpClientSpy)
+  return {
+    sut,
+    httpClientSpy,
+  }
+}
+
 describe('RemoteAuthentication Usecase', () => {
   it('should call HttpClient with correct values', async () => {
     const url = faker.internet.url()
-    const httpClientSpy = new HttpClientSpy()
-    const sut = new RemoteAuthentication(url, httpClientSpy)
+    const { sut, httpClientSpy } = makeSut(url)
     const authParams = {
       email: faker.internet.email(),
       password: faker.internet.password(),
