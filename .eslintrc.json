@@ -1,8 +1,17 @@
 {
-  "extends": "standard-with-typescript",
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "extends": [
+    "standard-with-typescript",
+    "plugin:react/recommended"
+  ],
   "plugins": [
     "eslint-plugin-import-helpers",
-    "eslint-plugin-unused-imports"
+    "eslint-plugin-unused-imports",
+    "react"
   ],
   "parserOptions": {
     "project": "./tsconfig.json"
@@ -47,6 +56,8 @@
     "@typescript-eslint/consistent-type-definitions": "off",
     "@typescript-eslint/return-await": "off",
     "@typescript-eslint/no-misused-promises": "off",
-    "@typescript-eslint/no-namespace": "off"
+    "@typescript-eslint/no-namespace": "off",
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error"
   }
 }
