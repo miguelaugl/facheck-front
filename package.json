@@ -1,0 +1,9 @@
+{
+  "name": "facheck-front",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "git-commit-msg-linter": "^3.2.8"
+  }
+}
