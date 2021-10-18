@@ -9,8 +9,13 @@ export type HttpRequest = {
 }
 
 export type HttpResponse<T = any> = {
-  statusCode: any
+  statusCode: HttpStatusCode
   body?: T
 }
 
 export type HttpMethod = 'POST'
+
+export enum HttpStatusCode {
+  UNAUTHORIZED = 401,
+  SUCCESS = 200
+}
