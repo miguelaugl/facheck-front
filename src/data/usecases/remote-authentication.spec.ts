@@ -91,4 +91,12 @@ describe('RemoteAuthentication Usecase', () => {
     const promise = sut.auth(mockAuthenticationParams())
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
+
+  it('should return an AccountModel if HttpClient returns 200', async () => {
+    const url = faker.internet.url()
+    const { sut, httpClientSpy } = makeSut(url)
+    const authenticationParams = mockAuthenticationParams()
+    const account = await sut.auth(authenticationParams)
+    expect(account).toEqual(httpClientSpy.response.body)
+  })
 })
