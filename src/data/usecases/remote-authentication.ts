@@ -17,7 +17,7 @@ export class RemoteAuthentication implements Authentication {
     if (httpResponse.statusCode === HttpStatusCode.UNAUTHORIZED) {
       throw new InvalidCredentialsError()
     }
-    if (httpResponse.statusCode === HttpStatusCode.BAD_REQUEST || httpResponse.statusCode === HttpStatusCode.NOT_FOUND) {
+    if (httpResponse.statusCode === HttpStatusCode.BAD_REQUEST || httpResponse.statusCode === HttpStatusCode.NOT_FOUND || httpResponse.statusCode === HttpStatusCode.INTERNAL_SERVER_ERROR) {
       throw new UnexpectedError()
     }
     return null
