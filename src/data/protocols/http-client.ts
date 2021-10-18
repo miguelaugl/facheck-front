@@ -6,6 +6,7 @@ export type HttpRequest = {
   url: string
   method: HttpMethod
   body?: any
+  headers?: any
 }
 
 export type HttpResponse<T = any> = {
@@ -13,7 +14,7 @@ export type HttpResponse<T = any> = {
   body?: T
 }
 
-export type HttpMethod = 'POST'
+export type HttpMethod = 'POST' | 'GET' | 'PUT' | 'DELETE'
 
 export enum HttpStatusCode {
   UNAUTHORIZED = 401,
