@@ -1,13 +1,9 @@
 import '@/main/config/setYupLocale'
-import { ChakraProvider } from '@chakra-ui/react'
 import ReactDOM from 'react-dom'
 
-import { theme } from '@/main/config/theme'
-import { Login } from '@/presentation/pages'
+import { Router } from '@/main/router/router'
 
 ReactDOM.render(
-  <ChakraProvider theme={theme}>
-    <Login />
-  </ChakraProvider>,
+  <Router />,
   document.getElementById('root'),
 )
