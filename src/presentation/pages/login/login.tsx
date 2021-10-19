@@ -1,6 +1,7 @@
 import { EmailIcon, LockIcon } from '@chakra-ui/icons'
 import { Heading, Stack, Link, Button, AlertIcon, Alert } from '@chakra-ui/react'
 import { Field, Formik, FormikHelpers } from 'formik'
+import { useState } from 'react'
 import * as Yup from 'yup'
 
 import { Authentication } from '@/domain/usecases'
@@ -32,19 +33,23 @@ type Props = {
 }
 
 export const Login = ({ authentication }: Props): JSX.Element => {
+  const [mainError, setMainError] = useState('')
   const onSubmit = async (values: FormValues, formikHelpers: FormikHelpers<FormValues>): Promise<void> => {
-    formikHelpers.setSubmitting(true)
-    await authentication.auth(values)
-    formikHelpers.setSubmitting(false)
+    try {
+      await authentication.auth(values)
+    } catch (error) {
+      formikHelpers.setSubmitting(false)
+      setMainError(error.message)
+    }
   }
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
         <div className={styles.formContainer}>
           <Formik initialValues={{ email: '', password: '' }} onSubmit={onSubmit} validationSchema={validationSchema}>
-            {({ isSubmitting, isValid, status, dirty, submitForm }) => {
+            {({ isSubmitting, isValid, dirty, submitForm }) => {
               const isDisabled = !isValid || !dirty
-              const hasApiError = status === 'api-error'
+              const hasMainError = !!mainError
               return (
                 <Stack spacing={4}>
                   <img src={logoPurpleFontImg} alt="Logo Facheck" className={styles.formLogo}/>
@@ -53,10 +58,10 @@ export const Login = ({ authentication }: Props): JSX.Element => {
                   <Field label="Senha:" name="password" leftIcon={<LockIcon color="gray.300" />} component={PasswordInput} />
                   <Link href="/">Não possui uma conta?</Link>
                   <Button isLoading={isSubmitting} isDisabled={isDisabled} type="submit" isFullWidth onClick={submitForm} data-testid="submit">Entrar</Button>
-                  {hasApiError && (
-                    <Alert data-testid="error-wrap" status="error">
+                  {hasMainError && (
+                    <Alert data-testid="main-error" status="error">
                       <AlertIcon />
-                      Algo de errado aconteceu. Tente novamente mais tarde.
+                      {mainError}
                     </Alert>
                   )}
                 </Stack>
