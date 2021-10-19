@@ -1,21 +1,30 @@
 import axios from 'axios'
-import faker from 'faker'
 
 import { mockHttpRequest } from '@/data/tests'
+import { mockAxios } from '@/infra/test'
 
 import { AxiosHttpClient } from './axios-http-client'
 
 jest.mock('axios')
 
+type SutTypes = {
+  sut: AxiosHttpClient
+  mockedAxios: jest.Mocked<typeof axios>
+}
+
+const makeSut = (): SutTypes => {
+  const sut = new AxiosHttpClient()
+  const mockedAxios = mockAxios()
+  return {
+    sut,
+    mockedAxios,
+  }
+}
+
 describe('AxiosHttpClient', () => {
   it('should call axios with correct values', async () => {
     const request = mockHttpRequest()
-    const sut = new AxiosHttpClient()
-    const mockedAxios = axios as jest.Mocked<typeof axios>
-    mockedAxios.request.mockClear().mockResolvedValue({
-      data: faker.random.objectElement(),
-      status: faker.datatype.number(),
-    })
+    const { sut, mockedAxios } = makeSut()
     await sut.request(request)
     expect(mockedAxios.request).toHaveBeenCalledWith({
       url: request.url,
