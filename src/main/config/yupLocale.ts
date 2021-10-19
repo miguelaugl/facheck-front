@@ -1,7 +1,8 @@
 /* eslint-disable no-template-curly-in-string */
 import { setLocale } from 'yup'
+import { LocaleObject } from 'yup/lib/locale'
 
-setLocale({
+export const defaultConfig: LocaleObject = {
   mixed: {
     default: 'Inválido',
     required: 'Campo obrigatório',
@@ -35,4 +36,6 @@ setLocale({
     min: 'Deve ter no mínimo ${min} itens',
     max: 'Deve ter no máximo ${max} itens',
   },
-})
+}
+
+setLocale(defaultConfig)
