@@ -1,9 +1,12 @@
 import { Input as ChakraInput, FormLabel, InputGroup, InputLeftElement, FormControl, FormErrorMessage, FormHelperText } from '@chakra-ui/react'
-import { FormikProps } from 'formik'
+import { FormikProps, FieldInputProps } from 'formik'
 import React, { ChangeEventHandler, useCallback, memo, HTMLInputTypeAttribute, ChangeEvent } from 'react'
 
+import { ValidFeedbackIcon } from './valid-feedback-icon'
+
 export type Props = {
-  form: FormikProps<any>
+  field?: FieldInputProps<any>
+  form?: FormikProps<any>
   /**
    * defauls to text
    */
@@ -26,12 +29,13 @@ export type Props = {
 
 const InputComponent = ({
   id,
+  field,
   form,
   label,
-  name,
+  name: nameProp,
   helperText,
   isFullWidth = true,
-  value,
+  value: valueProp,
   onChange,
   leftIcon,
   rightElement,
@@ -39,28 +43,32 @@ const InputComponent = ({
   type = 'text',
   isDisabled,
 }: Props): JSX.Element => {
+  console.log(form)
+  const name = field?.name ?? nameProp
+  const value = field?.value ?? valueProp
   const onChangeHandler = useCallback(
     (e: ChangeEvent<HTMLInputElement>): void => {
       form?.setFieldValue(name, e.target.value)
       onChange?.(e)
     },
-    [form, onChange],
+    [form, name, onChange],
   )
   const onBlurHandler = useCallback(
     (e): void => {
       form?.setFieldTouched(name, true)
       form?.setFieldValue(name, e.target.value)
     },
-    [form],
+    [form, name],
   )
   const getFieldError = (name: string, form: FormikProps<any>): string => {
     return form.touched[name] || form.submitCount ? form.getFieldMeta(name).error : ''
   }
   const errorMessage = form && getFieldError(name, form)
   const isFormInvalid = !!errorMessage
+  const shouldShowValidFieldFeedback = !rightElement && !errorMessage && form.dirty
   return (
     <FormControl isDisabled={isDisabled} isInvalid={isFormInvalid}>
-      <FormLabel htmlFor={name}>{label}:</FormLabel>
+      <FormLabel htmlFor={name}>{label}</FormLabel>
       <InputGroup>
       {leftIcon && (
         <InputLeftElement
@@ -81,6 +89,7 @@ const InputComponent = ({
           isFullWidth={isFullWidth}
         />
         {rightElement}
+        <ValidFeedbackIcon shouldShow={shouldShowValidFieldFeedback} />
      </InputGroup>
       <FormHelperText>{helperText}</FormHelperText>
       <FormErrorMessage>{errorMessage}</FormErrorMessage>

@@ -1,11 +1,11 @@
 import { Icon } from '@chakra-ui/icons'
 import { Button, InputRightElement } from '@chakra-ui/react'
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io'
 
 import { Input, Props as BaseInputProps } from '@/presentation/components/input/input'
 
-export const PasswordInputComponent = (props: BaseInputProps): JSX.Element => {
+const PasswordInputComponent = (props: BaseInputProps): JSX.Element => {
   const [isPasswordShown, setPasswordShown] = useState(false)
   const handleTogglePasswordShow = (): void => {
     setPasswordShown(prevState => !prevState)
@@ -30,3 +30,5 @@ export const PasswordInputComponent = (props: BaseInputProps): JSX.Element => {
     />
   )
 }
+
+export const PasswordInput = memo(PasswordInputComponent)
