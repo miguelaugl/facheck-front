@@ -1,3 +1,12 @@
+import { ChakraProvider } from '@chakra-ui/react'
 import ReactDOM from 'react-dom'
 
-ReactDOM.render(<h1>Facheck</h1>, document.getElementById('root'))
+import { theme } from '@/main/config/theme'
+import { Login } from '@/presentation/pages'
+
+ReactDOM.render(
+  <ChakraProvider theme={theme}>
+    <Login />
+  </ChakraProvider>,
+  document.getElementById('root'),
+)
