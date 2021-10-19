@@ -1,0 +1,62 @@
+.wrapper {
+  display: flex;
+  min-height: 100vh;
+  background-image: url('@/presentation/images/login-background.png');
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.container {
+  width: 100%;
+  max-width: 1180px;
+  padding: 0 32px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.formContainer {
+  flex: 1;
+  max-width: 460px;
+
+  .formLogo {
+    display: none;
+  }
+}
+
+.imageContainer {
+  flex: 1;
+  display: none;
+  margin-left: 32px;
+}
+
+@media only screen and (max-width: 1250px) {
+  .wrapper {
+    background-image: url('@/presentation/images/wavy-background.png');
+    background-size: contain;
+  }
+
+  .imageContainer {
+    display: block;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .wrapper {
+    background-image: none;
+  }
+
+  .imageContainer {
+    display: none;
+  }
+
+  .formContainer {
+    .formLogo {
+      display: block;
+      max-width: 240px;
+    }
+  }
+}
+

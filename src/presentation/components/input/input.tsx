@@ -43,7 +43,6 @@ const InputComponent = ({
   type = 'text',
   isDisabled,
 }: Props): JSX.Element => {
-  console.log(form)
   const name = field?.name ?? nameProp
   const value = field?.value ?? valueProp
   const onChangeHandler = useCallback(

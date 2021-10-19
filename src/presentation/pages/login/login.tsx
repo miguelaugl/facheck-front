@@ -4,8 +4,10 @@ import { Field, Formik, FormikHelpers } from 'formik'
 import * as Yup from 'yup'
 
 import { Input, PasswordInput } from '@/presentation/components'
+import logoPurpleFontImg from '@/presentation/images/logo-purple-font.png'
+import logoWithProfessionalsImg from '@/presentation/images/logo-with-professionals.png'
 
-import styles from './styles.module.css'
+import styles from './styles.module.scss'
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email().required(),
@@ -14,7 +16,7 @@ const validationSchema = Yup.object().shape({
     .required()
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
-      'Deve conter 8 caracteres, uma letra maiúscula, uma letra minúsculo, um número e um caractere especial',
+      'Deve conter 8 caracteres, uma letra maiúscula, uma letra minúscula, um número e um caractere especial',
     ),
 })
 
@@ -38,7 +40,8 @@ export const Login = (): JSX.Element => {
                 const hasApiError = status === 'api-error'
                 return (
                   <Stack spacing={4}>
-                    <Heading as="h1">Logar-se</Heading>
+                    <img src={logoPurpleFontImg} alt="Logo Facheck" className={styles.formLogo}/>
+                    <Heading as="h1">Login</Heading>
                     <Field label="Email:" name="email" leftIcon={<EmailIcon color="gray.300" />} component={Input} />
                     <Field label="Senha:" name="password" leftIcon={<LockIcon color="gray.300" />} component={PasswordInput} />
                     <Link href="/">Não possui uma conta?</Link>
@@ -53,6 +56,9 @@ export const Login = (): JSX.Element => {
                 )
               }}
             </Formik>
+        </div>
+        <div className={styles.imageContainer}>
+          <img src={logoWithProfessionalsImg} alt="Profissionais com a logo ao fundo" />
         </div>
       </div>
     </div>
