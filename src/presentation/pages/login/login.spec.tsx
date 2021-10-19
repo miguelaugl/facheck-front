@@ -1,6 +1,8 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import faker from 'faker'
+import { createMemoryHistory } from 'history'
+import { Router } from 'react-router-dom'
 
 import { InvalidCredentialsError } from '@/domain/errors'
 import { validationMessages } from '@/presentation/config/yupLocale'
@@ -29,9 +31,14 @@ const simulateValidSubmit = async (email = faker.internet.email(), password = '@
   userEvent.click(button)
 }
 
+const history = createMemoryHistory({ initialEntries: ['/login'] })
 const makeSut = (): SutTypes => {
   const authenticationSpy = new AuthenticationSpy()
-  render(<Login authentication={authenticationSpy} />)
+  render(
+    <Router history={history}>
+      <Login authentication={authenticationSpy} />
+    </Router>,
+  )
   return {
     authenticationSpy,
   }
@@ -126,5 +133,12 @@ describe('Login Component', () => {
     await simulateValidSubmit()
     await waitFor(() => authenticationSpy.auth)
     expect(screen.getByTestId('main-error')).toHaveTextContent(error.message)
+  })
+
+  it('should go to home on submit success', async () => {
+    makeSut()
+    await waitFor(() => simulateValidSubmit)
+    expect(history.length).toBe(1)
+    expect(history.location.pathname).toBe('/')
   })
 })
