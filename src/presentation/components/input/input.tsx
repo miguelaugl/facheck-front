@@ -1,4 +1,4 @@
-import { Input as ChakraInput, FormLabel, InputGroup, InputLeftElement, FormControl, FormErrorMessage, FormHelperText } from '@chakra-ui/react'
+import { Input as ChakraInput, FormLabel, InputGroup, InputLeftElement, FormControl, FormHelperText, FormErrorMessage } from '@chakra-ui/react'
 import { FormikProps, FieldInputProps } from 'formik'
 import React, { ChangeEventHandler, useCallback, memo, HTMLInputTypeAttribute, ChangeEvent } from 'react'
 
@@ -63,10 +63,10 @@ const InputComponent = ({
     return form.touched[name] || form.submitCount ? form.getFieldMeta(name).error : ''
   }
   const errorMessage = form && getFieldError(name, form)
-  const isFormInvalid = !!errorMessage
+  const isFieldInvalid = !!errorMessage
   const shouldShowValidFieldFeedback = !rightElement && !errorMessage && !!form?.touched[name]
   return (
-    <FormControl isDisabled={isDisabled} isInvalid={isFormInvalid}>
+    <FormControl isDisabled={isDisabled} isInvalid={isFieldInvalid}>
       <FormLabel htmlFor={name}>{label}</FormLabel>
       <InputGroup>
       {leftIcon && (
@@ -92,7 +92,7 @@ const InputComponent = ({
         <ValidFeedbackIcon shouldShow={shouldShowValidFieldFeedback} />
      </InputGroup>
       <FormHelperText>{helperText}</FormHelperText>
-      <FormErrorMessage>{errorMessage}</FormErrorMessage>
+      <FormErrorMessage data-testid={`${name}-error-message`}>{errorMessage}</FormErrorMessage>
     </FormControl>
   )
 }
