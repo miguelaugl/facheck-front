@@ -2,7 +2,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import faker from 'faker'
 
-import { defaultConfig } from '@/main/config/yupLocale'
+import { validationMessages } from '@/presentation/config/yupLocale'
 
 import { Login } from './login'
 
@@ -25,11 +25,25 @@ describe('Login Component', () => {
     userEvent.type(emailInput, faker.random.words())
     fireEvent.blur(emailInput)
     await waitFor(() => {
-      expect(screen.getByTestId('email-error-message')).toHaveTextContent(defaultConfig.string.email as string)
+      expect(screen.getByTestId('email-error-message')).toHaveTextContent(validationMessages.string.email as string)
     })
     userEvent.clear(emailInput)
     await waitFor(() => {
-      expect(screen.getByTestId('email-error-message')).toHaveTextContent(defaultConfig.mixed.required as string)
+      expect(screen.getByTestId('email-error-message')).toHaveTextContent(validationMessages.mixed.required as string)
+    })
+  })
+
+  it('should show password validation error', async () => {
+    render(<Login />)
+    const passwordInput = screen.getByTestId('password')
+    userEvent.type(passwordInput, faker.random.word())
+    fireEvent.blur(passwordInput)
+    await waitFor(() => {
+      expect(screen.getByTestId('password-error-message')).toHaveTextContent(validationMessages.passwordStrengh)
+    })
+    userEvent.clear(passwordInput)
+    await waitFor(() => {
+      expect(screen.getByTestId('password-error-message')).toHaveTextContent(validationMessages.mixed.required as string)
     })
   })
 })

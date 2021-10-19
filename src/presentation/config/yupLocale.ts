@@ -2,7 +2,7 @@
 import { setLocale } from 'yup'
 import { LocaleObject } from 'yup/lib/locale'
 
-export const defaultConfig: LocaleObject = {
+const defaultConfig: LocaleObject = {
   mixed: {
     default: 'Inválido',
     required: 'Campo obrigatório',
@@ -36,6 +36,11 @@ export const defaultConfig: LocaleObject = {
     min: 'Deve ter no mínimo ${min} itens',
     max: 'Deve ter no máximo ${max} itens',
   },
+}
+
+export const validationMessages = {
+  ...defaultConfig,
+  passwordStrengh: 'Deve conter 8 caracteres, uma letra maiúscula, uma letra minúscula, um número e um caractere especial',
 }
 
 setLocale(defaultConfig)

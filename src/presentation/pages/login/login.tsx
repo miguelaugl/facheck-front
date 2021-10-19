@@ -4,6 +4,7 @@ import { Field, Formik, FormikHelpers } from 'formik'
 import * as Yup from 'yup'
 
 import { Input, PasswordInput } from '@/presentation/components'
+import { validationMessages } from '@/presentation/config/yupLocale'
 import logoPurpleFontImg from '@/presentation/images/logo-purple-font.png'
 import logoWithProfessionalsImg from '@/presentation/images/logo-with-professionals.png'
 
@@ -16,7 +17,7 @@ const validationSchema = Yup.object().shape({
     .required()
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
-      'Deve conter 8 caracteres, uma letra maiúscula, uma letra minúscula, um número e um caractere especial',
+      validationMessages.passwordStrengh,
     ),
 })
 

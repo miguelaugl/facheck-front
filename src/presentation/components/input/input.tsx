@@ -14,7 +14,6 @@ export type Props = {
   /**
    * defauls to true
    */
-  isFullWidth?: boolean
   id?: string
   label: string
   placeholder?: string
@@ -34,7 +33,6 @@ const InputComponent = ({
   label,
   name: nameProp,
   helperText,
-  isFullWidth = true,
   value: valueProp,
   onChange,
   leftIcon,
@@ -86,7 +84,6 @@ const InputComponent = ({
           placeholder={placeholder}
           onChange={onChangeHandler}
           onBlur={onBlurHandler}
-          isFullWidth={isFullWidth}
         />
         {rightElement}
         <ValidFeedbackIcon shouldShow={shouldShowValidFieldFeedback} />
