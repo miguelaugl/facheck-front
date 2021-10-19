@@ -2,6 +2,7 @@ import faker from 'faker'
 
 import { HttpClient, HttpMethod, HttpRequest, HttpResponse, HttpStatusCode } from '@/data/protocols'
 import { InvalidCredentialsError, UnexpectedError } from '@/domain/errors'
+import { mockAccountModel } from '@/domain/tests'
 import { Authentication } from '@/domain/usecases'
 
 import { RemoteAuthentication } from './remote-authentication'
@@ -12,10 +13,7 @@ class HttpClientSpy implements HttpClient {
   body?: any
   response: HttpResponse = {
     statusCode: HttpStatusCode.SUCCESS,
-    body: {
-      accessToken: faker.datatype.uuid(),
-      name: faker.name.findName(),
-    },
+    body: mockAccountModel(),
   }
 
   async request (httpRequest: HttpRequest): Promise<HttpResponse> {

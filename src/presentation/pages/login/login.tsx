@@ -3,6 +3,7 @@ import { Heading, Stack, Link, Button, AlertIcon, Alert } from '@chakra-ui/react
 import { Field, Formik, FormikHelpers } from 'formik'
 import * as Yup from 'yup'
 
+import { Authentication } from '@/domain/usecases'
 import { Input, PasswordInput } from '@/presentation/components'
 import { validationMessages } from '@/presentation/config/yupLocale'
 import logoPurpleFontImg from '@/presentation/images/logo-purple-font.png'
@@ -26,10 +27,15 @@ type FormValues = {
   password: string
 }
 
-export const Login = (): JSX.Element => {
-  const onSubmit = (values: FormValues, formikHelpers: FormikHelpers<FormValues>): void => {
-    console.log('Submitted with:', values)
-    setTimeout(formikHelpers.setSubmitting, 3000, false)
+type Props = {
+  authentication: Authentication
+}
+
+export const Login = ({ authentication }: Props): JSX.Element => {
+  const onSubmit = async (values: FormValues, formikHelpers: FormikHelpers<FormValues>): Promise<void> => {
+    formikHelpers.setSubmitting(true)
+    await authentication.auth(values)
+    formikHelpers.setSubmitting(false)
   }
   return (
     <div className={styles.wrapper}>

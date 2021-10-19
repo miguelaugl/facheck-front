@@ -3,11 +3,20 @@ import userEvent from '@testing-library/user-event'
 import faker from 'faker'
 
 import { validationMessages } from '@/presentation/config/yupLocale'
+import { AuthenticationSpy } from '@/presentation/tests'
 
 import { Login } from './login'
 
-const makeSut = (): void => {
-  render(<Login />)
+type SutTypes = {
+  authenticationSpy: AuthenticationSpy
+}
+
+const makeSut = (): SutTypes => {
+  const authenticationSpy = new AuthenticationSpy()
+  render(<Login authentication={authenticationSpy} />)
+  return {
+    authenticationSpy,
+  }
 }
 
 describe('Login Component', () => {
@@ -61,7 +70,7 @@ describe('Login Component', () => {
   })
 
   it('should show button loading on submit', async () => {
-    makeSut()
+    const { authenticationSpy } = makeSut()
     const emailInput = screen.getByTestId('email')
     const passwordInput = screen.getByTestId('password')
     await waitFor(() => {
@@ -73,10 +82,32 @@ describe('Login Component', () => {
       fireEvent.blur(passwordInput)
     })
     const button = screen.getByTestId('submit')
-    await waitFor(() => {
-      userEvent.click(button)
-    })
+    fireEvent.click(button)
     expect(button).toBeDisabled()
     expect(button).toHaveAttribute('data-loading')
+    await waitFor(() => authenticationSpy.auth)
+  })
+
+  it('should call Authentication with correct values', async () => {
+    const { authenticationSpy } = makeSut()
+    const emailInput = screen.getByTestId('email')
+    const passwordInput = screen.getByTestId('password')
+    const email = faker.internet.email()
+    const password = '@Teste12345'
+    await waitFor(() => {
+      fireEvent.input(emailInput, { target: { value: email } })
+      fireEvent.input(passwordInput, { target: { value: password } })
+    })
+    await waitFor(() => {
+      fireEvent.blur(emailInput)
+      fireEvent.blur(passwordInput)
+    })
+    const button = screen.getByTestId('submit')
+    userEvent.click(button)
+    await waitFor(() => authenticationSpy.auth)
+    expect(authenticationSpy.params).toEqual({
+      email,
+      password,
+    })
   })
 })
