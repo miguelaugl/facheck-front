@@ -2,6 +2,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import faker from 'faker'
 
+import { InvalidCredentialsError } from '@/domain/errors'
 import { validationMessages } from '@/presentation/config/yupLocale'
 import { AuthenticationSpy } from '@/presentation/tests'
 
@@ -25,7 +26,7 @@ describe('Login Component', () => {
     expect(screen.getByTestId('submit')).toBeDisabled()
     expect(screen.getByTestId('email')).not.toHaveValue()
     expect(screen.getByTestId('password')).not.toHaveValue()
-    expect(screen.queryByTestId('error-wrap')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('main-error')).not.toBeInTheDocument()
   })
 
   it('should show email validation error', async () => {
@@ -109,5 +110,68 @@ describe('Login Component', () => {
       email,
       password,
     })
+  })
+
+  it('should call Authentication only once', async () => {
+    const { authenticationSpy } = makeSut()
+    const emailInput = screen.getByTestId('email')
+    const passwordInput = screen.getByTestId('password')
+    const email = faker.internet.email()
+    const password = '@Teste12345'
+    await waitFor(() => {
+      fireEvent.input(emailInput, { target: { value: email } })
+      fireEvent.input(passwordInput, { target: { value: password } })
+    })
+    await waitFor(() => {
+      fireEvent.blur(emailInput)
+      fireEvent.blur(passwordInput)
+    })
+    const button = screen.getByTestId('submit')
+    userEvent.click(button)
+    await waitFor(() => authenticationSpy.auth)
+    expect(authenticationSpy.callsCount).toBe(1)
+  })
+
+  it('should not call Authentication if form is invalid', async () => {
+    const { authenticationSpy } = makeSut()
+    const emailInput = screen.getByTestId('email')
+    const passwordInput = screen.getByTestId('password')
+    const email = faker.internet.userName()
+    const password = '@Teste'
+    await waitFor(() => {
+      fireEvent.input(emailInput, { target: { value: email } })
+      fireEvent.input(passwordInput, { target: { value: password } })
+    })
+    await waitFor(() => {
+      fireEvent.blur(emailInput)
+      fireEvent.blur(passwordInput)
+    })
+    const button = screen.getByTestId('submit')
+    userEvent.click(button)
+    await waitFor(() => authenticationSpy.auth)
+    expect(authenticationSpy.callsCount).toBe(0)
+  })
+
+  it('should present error if Authentication fails', async () => {
+    const { authenticationSpy } = makeSut()
+    const error = new InvalidCredentialsError()
+    jest.spyOn(authenticationSpy, 'auth').mockImplementationOnce(() => { throw error })
+    const emailInput = screen.getByTestId('email')
+    const passwordInput = screen.getByTestId('password')
+    const email = faker.internet.email()
+    const password = '@Teste12345'
+    await waitFor(() => {
+      fireEvent.input(emailInput, { target: { value: email } })
+      fireEvent.input(passwordInput, { target: { value: password } })
+    })
+    await waitFor(() => {
+      fireEvent.blur(emailInput)
+      fireEvent.blur(passwordInput)
+    })
+    const button = screen.getByTestId('submit')
+    userEvent.click(button)
+    await waitFor(() => authenticationSpy.auth)
+    console.log(screen.getByTestId('main-error'))
+    expect(screen.getByTestId('main-error')).toHaveTextContent(error.message)
   })
 })
