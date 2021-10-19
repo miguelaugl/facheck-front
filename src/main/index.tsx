@@ -1,3 +1,4 @@
+import '@/main/config/setYupLocale'
 import { ChakraProvider } from '@chakra-ui/react'
 import ReactDOM from 'react-dom'
 
