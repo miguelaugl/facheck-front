@@ -80,6 +80,7 @@ const InputComponent = ({
           id={id || name}
           name={name}
           type={type}
+          data-testid={name}
           value={value}
           focusBorderColor="purple.500"
           placeholder={placeholder}
