@@ -13,6 +13,7 @@ const PasswordInputComponent = (props: BaseInputProps): JSX.Element => {
   return (
     <Input
       {...props}
+      type={isPasswordShown ? 'text' : 'password'}
       rightElement={
         <InputRightElement w="40px">
           <Button

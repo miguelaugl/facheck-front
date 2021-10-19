@@ -65,7 +65,7 @@ const InputComponent = ({
   }
   const errorMessage = form && getFieldError(name, form)
   const isFormInvalid = !!errorMessage
-  const shouldShowValidFieldFeedback = !rightElement && !errorMessage && form.dirty
+  const shouldShowValidFieldFeedback = !rightElement && !errorMessage && !!form?.touched[name]
   return (
     <FormControl isDisabled={isDisabled} isInvalid={isFormInvalid}>
       <FormLabel htmlFor={name}>{label}</FormLabel>
