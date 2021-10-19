@@ -1,4 +1,4 @@
-import '@/main/config/yupLocale'
+import '@/presentation/config/yupLocale'
 import { ChakraProvider } from '@chakra-ui/react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 

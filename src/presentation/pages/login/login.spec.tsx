@@ -20,30 +20,43 @@ describe('Login Component', () => {
   })
 
   it('should show email validation error', async () => {
-    render(<Login />)
+    makeSut()
     const emailInput = screen.getByTestId('email')
-    userEvent.type(emailInput, faker.random.words())
-    fireEvent.blur(emailInput)
     await waitFor(() => {
-      expect(screen.getByTestId('email-error-message')).toHaveTextContent(validationMessages.string.email as string)
+      fireEvent.blur(emailInput)
     })
-    userEvent.clear(emailInput)
+    expect(await screen.findByTestId('email-error-message')).toHaveTextContent(validationMessages.mixed.required as string)
     await waitFor(() => {
-      expect(screen.getByTestId('email-error-message')).toHaveTextContent(validationMessages.mixed.required as string)
+      userEvent.type(emailInput, faker.random.words())
     })
+    expect(await screen.findByTestId('email-error-message')).toHaveTextContent(validationMessages.string.email as string)
   })
 
   it('should show password validation error', async () => {
-    render(<Login />)
+    makeSut()
     const passwordInput = screen.getByTestId('password')
-    userEvent.type(passwordInput, faker.random.word())
-    fireEvent.blur(passwordInput)
     await waitFor(() => {
-      expect(screen.getByTestId('password-error-message')).toHaveTextContent(validationMessages.passwordStrengh)
+      fireEvent.blur(passwordInput)
     })
-    userEvent.clear(passwordInput)
+    expect(await screen.findByTestId('password-error-message')).toHaveTextContent(validationMessages.mixed.required as string)
     await waitFor(() => {
-      expect(screen.getByTestId('password-error-message')).toHaveTextContent(validationMessages.mixed.required as string)
+      userEvent.type(passwordInput, faker.random.word())
     })
+    expect(await screen.findByTestId('password-error-message')).toHaveTextContent(validationMessages.passwordStrengh)
+  })
+
+  it('should enable submit button if form is valid', async () => {
+    makeSut()
+    const emailInput = screen.getByTestId('email')
+    const passwordInput = screen.getByTestId('password')
+    await waitFor(() => {
+      fireEvent.input(emailInput, { target: { value: faker.internet.email() } })
+      fireEvent.input(passwordInput, { target: { value: '@Teste12345' } })
+    })
+    await waitFor(() => {
+      fireEvent.blur(emailInput)
+      fireEvent.blur(passwordInput)
+    })
+    expect(screen.getByTestId('submit')).toBeEnabled()
   })
 })

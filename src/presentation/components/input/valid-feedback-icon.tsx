@@ -1,6 +1,5 @@
 import { CheckCircleIcon } from '@chakra-ui/icons'
 import { InputRightElement, ScaleFade, Tooltip } from '@chakra-ui/react'
-import React from 'react'
 
 type Props = {
   shouldShow: boolean
