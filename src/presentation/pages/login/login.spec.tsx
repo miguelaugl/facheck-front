@@ -12,6 +12,23 @@ type SutTypes = {
   authenticationSpy: AuthenticationSpy
 }
 
+const simulateFieldInteraction = async (fieldName: string, value: any): Promise<void> => {
+  const input = screen.getByTestId(fieldName)
+  await waitFor(() => {
+    fireEvent.input(input, { target: { value } })
+  })
+  await waitFor(() => {
+    fireEvent.blur(input)
+  })
+}
+
+const simulateValidSubmit = async (email = faker.internet.email(), password = '@Teste12345'): Promise<void> => {
+  await simulateFieldInteraction('email', email)
+  await simulateFieldInteraction('password', password)
+  const button = screen.getByTestId('submit')
+  userEvent.click(button)
+}
+
 const makeSut = (): SutTypes => {
   const authenticationSpy = new AuthenticationSpy()
   render(<Login authentication={authenticationSpy} />)
@@ -57,31 +74,15 @@ describe('Login Component', () => {
 
   it('should enable submit button if form is valid', async () => {
     makeSut()
-    const emailInput = screen.getByTestId('email')
-    const passwordInput = screen.getByTestId('password')
-    await waitFor(() => {
-      fireEvent.input(emailInput, { target: { value: faker.internet.email() } })
-      fireEvent.input(passwordInput, { target: { value: '@Teste12345' } })
-    })
-    await waitFor(() => {
-      fireEvent.blur(emailInput)
-      fireEvent.blur(passwordInput)
-    })
+    await simulateFieldInteraction('email', faker.internet.email())
+    await simulateFieldInteraction('password', '@Teste12345')
     expect(screen.getByTestId('submit')).toBeEnabled()
   })
 
   it('should show button loading on submit', async () => {
     const { authenticationSpy } = makeSut()
-    const emailInput = screen.getByTestId('email')
-    const passwordInput = screen.getByTestId('password')
-    await waitFor(() => {
-      fireEvent.input(emailInput, { target: { value: faker.internet.email() } })
-      fireEvent.input(passwordInput, { target: { value: '@Teste12345' } })
-    })
-    await waitFor(() => {
-      fireEvent.blur(emailInput)
-      fireEvent.blur(passwordInput)
-    })
+    await simulateFieldInteraction('email', faker.internet.email())
+    await simulateFieldInteraction('password', '@Teste12345')
     const button = screen.getByTestId('submit')
     fireEvent.click(button)
     expect(button).toBeDisabled()
@@ -91,20 +92,9 @@ describe('Login Component', () => {
 
   it('should call Authentication with correct values', async () => {
     const { authenticationSpy } = makeSut()
-    const emailInput = screen.getByTestId('email')
-    const passwordInput = screen.getByTestId('password')
     const email = faker.internet.email()
-    const password = '@Teste12345'
-    await waitFor(() => {
-      fireEvent.input(emailInput, { target: { value: email } })
-      fireEvent.input(passwordInput, { target: { value: password } })
-    })
-    await waitFor(() => {
-      fireEvent.blur(emailInput)
-      fireEvent.blur(passwordInput)
-    })
-    const button = screen.getByTestId('submit')
-    userEvent.click(button)
+    const password = 'Teste!@#12345'
+    await simulateValidSubmit(email, password)
     await waitFor(() => authenticationSpy.auth)
     expect(authenticationSpy.params).toEqual({
       email,
@@ -114,38 +104,15 @@ describe('Login Component', () => {
 
   it('should call Authentication only once', async () => {
     const { authenticationSpy } = makeSut()
-    const emailInput = screen.getByTestId('email')
-    const passwordInput = screen.getByTestId('password')
-    const email = faker.internet.email()
-    const password = '@Teste12345'
-    await waitFor(() => {
-      fireEvent.input(emailInput, { target: { value: email } })
-      fireEvent.input(passwordInput, { target: { value: password } })
-    })
-    await waitFor(() => {
-      fireEvent.blur(emailInput)
-      fireEvent.blur(passwordInput)
-    })
-    const button = screen.getByTestId('submit')
-    userEvent.click(button)
+    await simulateValidSubmit()
     await waitFor(() => authenticationSpy.auth)
     expect(authenticationSpy.callsCount).toBe(1)
   })
 
   it('should not call Authentication if form is invalid', async () => {
     const { authenticationSpy } = makeSut()
-    const emailInput = screen.getByTestId('email')
-    const passwordInput = screen.getByTestId('password')
-    const email = faker.internet.userName()
-    const password = '@Teste'
-    await waitFor(() => {
-      fireEvent.input(emailInput, { target: { value: email } })
-      fireEvent.input(passwordInput, { target: { value: password } })
-    })
-    await waitFor(() => {
-      fireEvent.blur(emailInput)
-      fireEvent.blur(passwordInput)
-    })
+    await simulateFieldInteraction('email', faker.internet.email())
+    await simulateFieldInteraction('password', '@Teste')
     const button = screen.getByTestId('submit')
     userEvent.click(button)
     await waitFor(() => authenticationSpy.auth)
@@ -156,22 +123,8 @@ describe('Login Component', () => {
     const { authenticationSpy } = makeSut()
     const error = new InvalidCredentialsError()
     jest.spyOn(authenticationSpy, 'auth').mockImplementationOnce(() => { throw error })
-    const emailInput = screen.getByTestId('email')
-    const passwordInput = screen.getByTestId('password')
-    const email = faker.internet.email()
-    const password = '@Teste12345'
-    await waitFor(() => {
-      fireEvent.input(emailInput, { target: { value: email } })
-      fireEvent.input(passwordInput, { target: { value: password } })
-    })
-    await waitFor(() => {
-      fireEvent.blur(emailInput)
-      fireEvent.blur(passwordInput)
-    })
-    const button = screen.getByTestId('submit')
-    userEvent.click(button)
+    await simulateValidSubmit()
     await waitFor(() => authenticationSpy.auth)
-    console.log(screen.getByTestId('main-error'))
     expect(screen.getByTestId('main-error')).toHaveTextContent(error.message)
   })
 })
