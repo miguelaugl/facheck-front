@@ -59,4 +59,24 @@ describe('Login Component', () => {
     })
     expect(screen.getByTestId('submit')).toBeEnabled()
   })
+
+  it('should show button loading on submit', async () => {
+    makeSut()
+    const emailInput = screen.getByTestId('email')
+    const passwordInput = screen.getByTestId('password')
+    await waitFor(() => {
+      fireEvent.input(emailInput, { target: { value: faker.internet.email() } })
+      fireEvent.input(passwordInput, { target: { value: '@Teste12345' } })
+    })
+    await waitFor(() => {
+      fireEvent.blur(emailInput)
+      fireEvent.blur(passwordInput)
+    })
+    const button = screen.getByTestId('submit')
+    await waitFor(() => {
+      userEvent.click(button)
+    })
+    expect(button).toBeDisabled()
+    expect(button).toHaveAttribute('data-loading')
+  })
 })
