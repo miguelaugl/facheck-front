@@ -56,7 +56,7 @@ export const Login = ({ authentication }: Props): JSX.Element => {
                   <Heading as="h1">Login</Heading>
                   <Field label="Email:" name="email" leftIcon={<EmailIcon color="gray.300" />} component={Input} />
                   <Field label="Senha:" name="password" leftIcon={<LockIcon color="gray.300" />} component={PasswordInput} />
-                  <Link href="/">Não possui uma conta?</Link>
+                  <Link alignSelf="flex-start" href="/">Não possui uma conta?</Link>
                   <Button isLoading={isSubmitting} isDisabled={isDisabled} type="submit" isFullWidth onClick={submitForm} data-testid="submit">Entrar</Button>
                   {hasMainError && (
                     <Alert data-testid="main-error" status="error">
