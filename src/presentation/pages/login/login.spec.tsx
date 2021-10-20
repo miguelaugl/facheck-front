@@ -7,23 +7,13 @@ import { Router } from 'react-router-dom'
 import { InvalidCredentialsError } from '@/domain/errors'
 import { validationMessages } from '@/presentation/config/yup'
 import { ApiContext } from '@/presentation/contexts'
-import { AuthenticationSpy } from '@/presentation/tests'
+import { AuthenticationSpy, simulateFieldInteraction } from '@/presentation/tests'
 
 import { Login } from './login'
 
 type SutTypes = {
   authenticationSpy: AuthenticationSpy
   setCurrentAccountMock: () => void
-}
-
-const simulateFieldInteraction = async (fieldName: string, value: any): Promise<void> => {
-  const input = screen.getByTestId(fieldName)
-  await waitFor(() => {
-    fireEvent.input(input, { target: { value } })
-  })
-  await waitFor(() => {
-    fireEvent.blur(input)
-  })
 }
 
 const simulateValidSubmit = async (email = faker.internet.email(), password = '@Teste12345'): Promise<void> => {

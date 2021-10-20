@@ -8,11 +8,15 @@ export const mockAccountModel = (): AccountModel => ({
   name: faker.name.findName(),
 })
 
-export const mockAddAccountParams = (): AddAccount.Params => ({
-  name: faker.name.findName(),
-  email: faker.internet.email(),
-  password: faker.internet.password(),
-  course: faker.database.column(),
-  cpf: faker.datatype.uuid(),
-  ra: faker.datatype.uuid(),
-})
+export const mockAddAccountParams = (): AddAccount.Params => {
+  const password = '@Teste12345'
+  return {
+    name: faker.name.findName(),
+    email: faker.internet.email(),
+    password,
+    confirmPassword: password,
+    course: faker.database.column(),
+    cpf: '00871260018',
+    ra: '1234567891234',
+  }
+}

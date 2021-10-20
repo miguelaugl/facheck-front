@@ -3,10 +3,12 @@ import { Heading, Stack, Button, AlertIcon, Alert, Icon, Link as ChakraLink } fr
 import { Field, Formik } from 'formik'
 import { useState } from 'react'
 import { AiFillIdcard } from 'react-icons/ai'
+import { IoMdSchool } from 'react-icons/io'
 import { MdAccountCircle } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import * as yup from 'yup'
 
+import { AddAccount } from '@/domain/usecases'
 import { PasswordFormikInput, FormikInput } from '@/presentation/components'
 import designerGirlPointingImg from '@/presentation/images/designer-girl-pointing.png'
 import logoPurpleFontImg from '@/presentation/images/logo-purple-font.png'
@@ -15,6 +17,7 @@ import styles from './signup-styles.scss'
 
 const validationSchema = yup.object().shape({
   name: yup.string().required().min(3),
+  course: yup.string().required().min(3),
   ra: yup.string().required().integer().length(13),
   cpf: yup.string().required().cpf(),
   email: yup.string().required().email(),
@@ -35,10 +38,14 @@ type FormValues = {
   cpf: string
 }
 
-export const SignUp = (): JSX.Element => {
+type Props = {
+  addAccount: AddAccount
+}
+
+export const SignUp = ({ addAccount }: Props): JSX.Element => {
   const [mainError] = useState('')
   const onSubmit = async (values: FormValues): Promise<void> => {
-    console.log('Submitted with: ', values)
+    await addAccount.add(values)
   }
   return (
     <div className={styles.wrapper}>
@@ -67,6 +74,13 @@ export const SignUp = (): JSX.Element => {
                     leftIcon={<Icon as={MdAccountCircle} color='gray.300' />}
                     component={FormikInput}
                     placeholder='Digite seu nome completo'
+                  />
+                  <Field
+                    label='Qual curso você está?:'
+                    name='course'
+                    leftIcon={<Icon as={IoMdSchool} color='gray.300' />}
+                    component={FormikInput}
+                    placeholder='Digite o curso que você faz parte'
                   />
                   <Field
                     label='RA:'
