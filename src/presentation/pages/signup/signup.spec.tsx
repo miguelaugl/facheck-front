@@ -2,7 +2,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router'
 
-import { validationMessages } from '@/presentation/config/yupLocale'
+import { validationMessages } from '@/presentation/config/yup'
 
 import { SignUp } from './signup'
 
@@ -35,5 +35,18 @@ describe('SignUp Component', () => {
       fireEvent.blur(nameInput)
     })
     expect(await screen.findByTestId('name-error-message')).toHaveTextContent(validationMessages.mixed.required as string)
+  })
+
+  it('should show ra validation error', async () => {
+    makeSut()
+    const raInput = screen.getByTestId('ra')
+    await waitFor(() => {
+      fireEvent.blur(raInput)
+    })
+    expect(await screen.findByTestId('ra-error-message')).toHaveTextContent(validationMessages.mixed.required as string)
+    await waitFor(() => {
+      fireEvent.input(raInput, { target: { value: 'any_value' } })
+    })
+    expect(await screen.findByTestId('ra-error-message')).toHaveTextContent(validationMessages.onlyDigits)
   })
 })
