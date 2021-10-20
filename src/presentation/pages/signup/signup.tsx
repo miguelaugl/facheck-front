@@ -15,7 +15,7 @@ import styles from './signup-styles.scss'
 
 const validationSchema = yup.object().shape({
   name: yup.string().required().min(3),
-  ra: yup.string().required().integer(),
+  ra: yup.string().required().integer().length(13),
   cpf: yup.string().required().cpf(),
   email: yup.string().required().email(),
   password: yup.string().required().passwordStrength(),
