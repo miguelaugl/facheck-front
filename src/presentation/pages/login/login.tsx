@@ -57,7 +57,14 @@ export const Login = ({ authentication }: Props): JSX.Element => {
                 <Stack spacing={2}>
                   <img src={logoPurpleFontImg} alt='Logo Facheck' className={styles.formLogo} />
                   <Heading as='h1'>Login</Heading>
-                  <Field label='Email:' name='email' leftIcon={<EmailIcon color='gray.300' />} component={Input} placeholder='Digite seu email' />
+                  <Field
+                    type='email'
+                    label='Email:'
+                    name='email'
+                    leftIcon={<EmailIcon color='gray.300' />}
+                    component={Input}
+                    placeholder='Digite seu email'
+                  />
                   <Field
                     label='Senha:'
                     name='password'

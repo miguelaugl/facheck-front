@@ -17,6 +17,7 @@ const validationSchema = yup.object().shape({
   name: yup.string().required(),
   ra: yup.string().required().integer(),
   cpf: yup.string().required().cpf(),
+  email: yup.string().required().email(),
 })
 
 type FormValues = {
@@ -77,7 +78,14 @@ export const SignUp = (): JSX.Element => {
                     component={Input}
                     placeholder='Digite seu CPF'
                   />
-                  <Field label='Email:' name='email' leftIcon={<EmailIcon color='gray.300' />} component={Input} placeholder='Digite seu email' />
+                  <Field
+                    type='email'
+                    label='Email:'
+                    name='email'
+                    leftIcon={<EmailIcon color='gray.300' />}
+                    component={Input}
+                    placeholder='Digite seu email'
+                  />
                   <Field
                     label='Senha:'
                     name='password'
