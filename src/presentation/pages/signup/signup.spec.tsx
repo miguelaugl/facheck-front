@@ -175,4 +175,11 @@ describe('SignUp Component', () => {
     await waitFor(() => addAccountSpy.add)
     expect(screen.getByTestId('main-error')).toHaveTextContent(error.message)
   })
+
+  it('should go to home on submit success', async () => {
+    makeSut()
+    await waitFor(() => simulateValidSubmit)
+    expect(history.length).toBe(1)
+    expect(history.location.pathname).toBe('/')
+  })
 })
