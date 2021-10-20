@@ -1,28 +1,12 @@
 import faker from 'faker'
 
-import { HttpClient, HttpMethod, HttpRequest, HttpResponse, HttpStatusCode } from '@/data/protocols'
+import { HttpStatusCode } from '@/data/protocols'
+import { HttpClientSpy } from '@/data/tests'
 import { InvalidCredentialsError, UnexpectedError } from '@/domain/errors'
 import { mockAccountModel } from '@/domain/tests'
 import { Authentication } from '@/domain/usecases'
 
 import { RemoteAuthentication } from './remote-authentication'
-
-class HttpClientSpy implements HttpClient {
-  url: string
-  method: HttpMethod
-  body?: any
-  response: HttpResponse = {
-    statusCode: HttpStatusCode.SUCCESS,
-    body: mockAccountModel(),
-  }
-
-  async request(httpRequest: HttpRequest): Promise<HttpResponse> {
-    this.url = httpRequest.url
-    this.body = httpRequest.body
-    this.method = httpRequest.method
-    return this.response
-  }
-}
 
 type SutTypes = {
   sut: RemoteAuthentication
@@ -93,8 +77,12 @@ describe('RemoteAuthentication Usecase', () => {
   it('should return an AccountModel if HttpClient returns 200', async () => {
     const url = faker.internet.url()
     const { sut, httpClientSpy } = makeSut(url)
-    const authenticationParams = mockAuthenticationParams()
-    const account = await sut.auth(authenticationParams)
-    expect(account).toEqual(httpClientSpy.response.body)
+    const httpResult = mockAccountModel()
+    httpClientSpy.response = {
+      statusCode: HttpStatusCode.SUCCESS,
+      body: httpResult,
+    }
+    const account = await sut.auth(mockAuthenticationParams())
+    expect(account).toEqual(httpResult)
   })
 })
