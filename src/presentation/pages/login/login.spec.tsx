@@ -108,6 +108,7 @@ describe('Login Component', () => {
 
   it('should call Authentication only once', async () => {
     const { authenticationSpy } = makeSut()
+    await waitFor(() => simulateValidSubmit)
     await simulateValidSubmit()
     await waitFor(() => authenticationSpy.auth)
     expect(authenticationSpy.callsCount).toBe(1)
