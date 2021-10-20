@@ -84,10 +84,6 @@ describe('Login Component', () => {
       fireEvent.blur(passwordInput)
     })
     expect(await screen.findByTestId('password-error-message')).toHaveTextContent(validationMessages.mixed.required as string)
-    await waitFor(() => {
-      userEvent.type(passwordInput, faker.random.word())
-    })
-    expect(await screen.findByTestId('password-error-message')).toHaveTextContent(validationMessages.passwordStrength)
   })
 
   it('should enable submit button if form is valid', async () => {
@@ -130,7 +126,6 @@ describe('Login Component', () => {
   it('should not call Authentication if form is invalid', async () => {
     const { authenticationSpy } = makeSut()
     await simulateFieldInteraction('email', faker.internet.email())
-    await simulateFieldInteraction('password', '@Teste')
     const button = screen.getByTestId('submit')
     userEvent.click(button)
     await waitFor(() => authenticationSpy.auth)

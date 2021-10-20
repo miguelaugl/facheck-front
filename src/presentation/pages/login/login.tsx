@@ -16,7 +16,7 @@ import styles from './login-styles.scss'
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email().required(),
-  password: Yup.string().required().passwordStrength(),
+  password: Yup.string().required(),
 })
 
 type FormValues = {
