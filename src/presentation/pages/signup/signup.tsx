@@ -14,7 +14,7 @@ import logoPurpleFontImg from '@/presentation/images/logo-purple-font.png'
 import styles from './signup-styles.scss'
 
 const validationSchema = yup.object().shape({
-  name: yup.string().required(),
+  name: yup.string().required().min(3),
   ra: yup.string().required().integer(),
   cpf: yup.string().required().cpf(),
   email: yup.string().required().email(),
