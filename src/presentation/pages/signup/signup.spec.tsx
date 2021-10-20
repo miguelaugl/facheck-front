@@ -1,5 +1,4 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router'
 
@@ -36,6 +35,12 @@ describe('SignUp Component', () => {
       fireEvent.blur(nameInput)
     })
     expect(await screen.findByTestId('name-error-message')).toHaveTextContent(validationMessages.mixed.required as string)
+    const nameMinLength = '3'
+    const minLengthValidation = (validationMessages.string.min as string).replace(/\${min}/, nameMinLength)
+    await waitFor(() => {
+      fireEvent.input(nameInput, { target: { value: 'aa' } })
+    })
+    expect(await screen.findByTestId('name-error-message')).toHaveTextContent(minLengthValidation)
   })
 
   it('should show ra validation error', async () => {
@@ -59,7 +64,7 @@ describe('SignUp Component', () => {
     })
     expect(await screen.findByTestId('email-error-message')).toHaveTextContent(validationMessages.mixed.required as string)
     await waitFor(() => {
-      userEvent.type(emailInput, 'any_value')
+      fireEvent.input(emailInput, { target: { value: 'any_value' } })
     })
     expect(await screen.findByTestId('email-error-message')).toHaveTextContent(validationMessages.string.email as string)
   })
@@ -72,7 +77,7 @@ describe('SignUp Component', () => {
     })
     expect(await screen.findByTestId('password-error-message')).toHaveTextContent(validationMessages.mixed.required as string)
     await waitFor(() => {
-      userEvent.type(passwordInput, 'any_value')
+      fireEvent.input(passwordInput, { target: { value: 'any_value' } })
     })
     expect(await screen.findByTestId('password-error-message')).toHaveTextContent(validationMessages.passwordStrength)
   })
@@ -86,9 +91,9 @@ describe('SignUp Component', () => {
     })
     expect(await screen.findByTestId('confirmPassword-error-message')).toHaveTextContent(validationMessages.mixed.required as string)
     await waitFor(() => {
-      userEvent.type(passwordInput, '@Teste12345')
-      userEvent.type(confirmPasswordInput, 'other_value')
+      fireEvent.input(passwordInput, { target: { value: '@Teste12345' } })
+      fireEvent.input(confirmPasswordInput, { target: { value: 'other_value' } })
     })
-    expect(await screen.findByTestId('confirmPassword-error-message')).toHaveTextContent('As senhas não batem')
+    expect(await screen.findByTestId('confirmPassword-error-message')).toHaveTextContent('As senhas não batem.')
   })
 })

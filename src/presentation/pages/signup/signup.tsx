@@ -22,7 +22,7 @@ const validationSchema = yup.object().shape({
   confirmPassword: yup
     .string()
     .required()
-    .oneOf([yup.ref('password')], 'As senhas não batem'),
+    .oneOf([yup.ref('password')], 'As senhas não batem.'),
 })
 
 type FormValues = {
