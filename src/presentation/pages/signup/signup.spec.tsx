@@ -76,4 +76,19 @@ describe('SignUp Component', () => {
     })
     expect(await screen.findByTestId('password-error-message')).toHaveTextContent(validationMessages.passwordStrength)
   })
+
+  it('should show confirmPassword validation error', async () => {
+    makeSut()
+    const confirmPasswordInput = screen.getByTestId('confirmPassword')
+    const passwordInput = screen.getByTestId('password')
+    await waitFor(() => {
+      fireEvent.blur(confirmPasswordInput)
+    })
+    expect(await screen.findByTestId('confirmPassword-error-message')).toHaveTextContent(validationMessages.mixed.required as string)
+    await waitFor(() => {
+      userEvent.type(passwordInput, '@Teste12345')
+      userEvent.type(confirmPasswordInput, 'other_value')
+    })
+    expect(await screen.findByTestId('confirmPassword-error-message')).toHaveTextContent('As senhas não batem')
+  })
 })
