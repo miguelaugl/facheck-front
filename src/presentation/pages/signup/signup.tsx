@@ -5,12 +5,17 @@ import { useState } from 'react'
 import { AiFillIdcard } from 'react-icons/ai'
 import { MdAccountCircle } from 'react-icons/md'
 import { Link } from 'react-router-dom'
+import * as yup from 'yup'
 
 import { Input, PasswordInput } from '@/presentation/components'
 import designerGirlPointingImg from '@/presentation/images/designer-girl-pointing.png'
 import logoPurpleFontImg from '@/presentation/images/logo-purple-font.png'
 
 import styles from './signup-styles.scss'
+
+const validationSchema = yup.object().shape({
+  name: yup.string().required(),
+})
 
 type FormValues = {
   name: string
@@ -34,7 +39,11 @@ export const SignUp = (): JSX.Element => {
           <img src={designerGirlPointingImg} alt='Garota designer apontando com um círculo roxo ao fundo' />
         </div>
         <div className={styles.formContainer}>
-          <Formik initialValues={{ email: '', password: '', confirmPassword: '', cpf: '', course: '', name: '', ra: '' }} onSubmit={onSubmit}>
+          <Formik
+            initialValues={{ email: '', password: '', confirmPassword: '', cpf: '', course: '', name: '', ra: '' }}
+            onSubmit={onSubmit}
+            validationSchema={validationSchema}
+          >
             {({ isSubmitting, isValid, dirty, submitForm }) => {
               const isDisabled = !isValid || !dirty
               const hasMainError = !!mainError
