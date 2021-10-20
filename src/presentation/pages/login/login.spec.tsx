@@ -87,7 +87,7 @@ describe('Login Component', () => {
     await waitFor(() => {
       userEvent.type(passwordInput, faker.random.word())
     })
-    expect(await screen.findByTestId('password-error-message')).toHaveTextContent(validationMessages.passwordStrengh)
+    expect(await screen.findByTestId('password-error-message')).toHaveTextContent(validationMessages.passwordStrength)
   })
 
   it('should enable submit button if form is valid', async () => {

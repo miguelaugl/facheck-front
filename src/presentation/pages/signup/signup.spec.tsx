@@ -1,4 +1,5 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router'
 
@@ -50,16 +51,29 @@ describe('SignUp Component', () => {
     expect(await screen.findByTestId('ra-error-message')).toHaveTextContent(validationMessages.onlyDigits)
   })
 
-  it('should show cpf validation error', async () => {
+  it('should show email validation error', async () => {
     makeSut()
-    const cpfInput = screen.getByTestId('cpf')
+    const emailInput = screen.getByTestId('email')
     await waitFor(() => {
-      fireEvent.blur(cpfInput)
+      fireEvent.blur(emailInput)
     })
-    expect(await screen.findByTestId('cpf-error-message')).toHaveTextContent(validationMessages.mixed.required as string)
+    expect(await screen.findByTestId('email-error-message')).toHaveTextContent(validationMessages.mixed.required as string)
     await waitFor(() => {
-      fireEvent.input(cpfInput, { target: { value: 'any_value' } })
+      userEvent.type(emailInput, 'any_value')
     })
-    expect(await screen.findByTestId('cpf-error-message')).toHaveTextContent(validationMessages.cpf)
+    expect(await screen.findByTestId('email-error-message')).toHaveTextContent(validationMessages.string.email as string)
+  })
+
+  it('should show password validation error', async () => {
+    makeSut()
+    const passwordInput = screen.getByTestId('password')
+    await waitFor(() => {
+      fireEvent.blur(passwordInput)
+    })
+    expect(await screen.findByTestId('password-error-message')).toHaveTextContent(validationMessages.mixed.required as string)
+    await waitFor(() => {
+      userEvent.type(passwordInput, 'any_value')
+    })
+    expect(await screen.findByTestId('password-error-message')).toHaveTextContent(validationMessages.passwordStrength)
   })
 })
