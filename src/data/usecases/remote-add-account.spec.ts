@@ -1,6 +1,8 @@
 import faker from 'faker'
 
+import { HttpStatusCode } from '@/data/protocols'
 import { HttpClientSpy } from '@/data/tests'
+import { EmailInUseError } from '@/domain/errors'
 import { mockAddAccountParams } from '@/domain/tests'
 
 import { RemoteAddAccount } from './remote-add-account'
@@ -28,5 +30,14 @@ describe('RemoteAddAccount Usecase', () => {
     expect(httpClientSpy.url).toBe(url)
     expect(httpClientSpy.method).toBe('POST')
     expect(httpClientSpy.body).toEqual(addAccountParams)
+  })
+
+  it('should throw EmailInUseError if HttpClient returns 403', async () => {
+    const { sut, httpClientSpy } = makeSut()
+    httpClientSpy.response = {
+      statusCode: HttpStatusCode.FORBIDDEN,
+    }
+    const promise = sut.add(mockAddAccountParams())
+    await expect(promise).rejects.toThrow(new EmailInUseError())
   })
 })
