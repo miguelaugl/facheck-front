@@ -22,4 +22,5 @@ export enum HttpStatusCode {
   NOT_FOUND = 404,
   SUCCESS = 200,
   INTERNAL_SERVER_ERROR = 500,
+  FORBIDDEN = 403,
 }
