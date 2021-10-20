@@ -18,6 +18,7 @@ const validationSchema = yup.object().shape({
   ra: yup.string().required().integer(),
   cpf: yup.string().required().cpf(),
   email: yup.string().required().email(),
+  password: yup.string().required().passwordStrength(),
 })
 
 type FormValues = {

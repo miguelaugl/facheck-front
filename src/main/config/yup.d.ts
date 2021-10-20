@@ -6,5 +6,6 @@ declare module 'yup' {
     extends BaseSchema<TType, TContext, TOut> {
     integer: () => StringSchema<TType, TContext>
     cpf: () => StringSchema<TType, TContext>
+    passwordStrength: (regex?: RegExp, message?: string) => StringSchema<TType, TContext>
   }
 }

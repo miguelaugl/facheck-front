@@ -41,7 +41,7 @@ const defaultConfig: LocaleObject = {
 
 export const validationMessages = {
   ...defaultConfig,
-  passwordStrengh: 'Deve conter 8 caracteres, uma letra maiúscula, uma letra minúscula, um número e um caractere especial',
+  passwordStrength: 'Deve conter 8 caracteres, uma letra maiúscula, uma letra minúscula, um número e um caractere especial',
   onlyDigits: 'Deve conter apenas dígitos',
   cpf: 'Deve ter um formato de CPF válido',
 }
@@ -53,5 +53,13 @@ yup.addMethod(yup.string, 'integer', function () {
 yup.addMethod(yup.string, 'cpf', function () {
   return this.test('is-cpf', validationMessages.cpf, (value: string) => cpf.isValid(value))
 })
+
+yup.addMethod(
+  yup.string,
+  'passwordStrength',
+  function (regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/, message = validationMessages.passwordStrength) {
+    return this.matches(regex, message)
+  },
+)
 
 yup.setLocale(defaultConfig)

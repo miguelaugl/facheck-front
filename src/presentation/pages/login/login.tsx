@@ -8,7 +8,6 @@ import * as Yup from 'yup'
 
 import { Authentication } from '@/domain/usecases'
 import { Input, PasswordInput } from '@/presentation/components'
-import { validationMessages } from '@/presentation/config/yup'
 import { ApiContext } from '@/presentation/contexts'
 import logoPurpleFontImg from '@/presentation/images/logo-purple-font.png'
 import logoWithProfessionalsImg from '@/presentation/images/logo-with-professionals.png'
@@ -17,9 +16,7 @@ import styles from './login-styles.scss'
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email().required(),
-  password: Yup.string()
-    .required()
-    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/, validationMessages.passwordStrengh),
+  password: Yup.string().required().passwordStrength(),
 })
 
 type FormValues = {
