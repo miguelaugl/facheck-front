@@ -6,12 +6,14 @@ import { Router } from 'react-router'
 import { EmailInUseError } from '@/domain/errors'
 import { mockAddAccountParams } from '@/domain/tests'
 import { validationMessages } from '@/presentation/config/yup'
+import { ApiContext } from '@/presentation/contexts'
 import { AddAccountSpy, simulateFieldInteraction } from '@/presentation/tests'
 
 import { SignUp } from './signup'
 
 type SutTypes = {
   addAccountSpy: AddAccountSpy
+  setCurrentAccountMock: () => void
 }
 
 const simulateValidSubmit = async (addAccountParams = mockAddAccountParams()): Promise<void> => {
@@ -28,13 +30,22 @@ const simulateValidSubmit = async (addAccountParams = mockAddAccountParams()): P
 const history = createMemoryHistory({ initialEntries: ['/signup'] })
 const makeSut = (): SutTypes => {
   const addAccountSpy = new AddAccountSpy()
+  const setCurrentAccountMock = jest.fn()
   render(
-    <Router history={history}>
-      <SignUp addAccount={addAccountSpy} />
-    </Router>,
+    <ApiContext.Provider
+      value={{
+        setCurrentAccount: setCurrentAccountMock,
+      }}
+    >
+      <Router history={history}>
+        <SignUp addAccount={addAccountSpy} />
+      </Router>
+      ,
+    </ApiContext.Provider>,
   )
   return {
     addAccountSpy,
+    setCurrentAccountMock,
   }
 }
 
@@ -181,5 +192,12 @@ describe('SignUp Component', () => {
     await waitFor(() => simulateValidSubmit)
     expect(history.length).toBe(1)
     expect(history.location.pathname).toBe('/')
+  })
+
+  it('should call SaveAcessToken on success', async () => {
+    const { addAccountSpy, setCurrentAccountMock } = makeSut()
+    await simulateValidSubmit()
+    await waitFor(() => addAccountSpy.add)
+    expect(setCurrentAccountMock).toHaveBeenCalledWith(addAccountSpy.result)
   })
 })
