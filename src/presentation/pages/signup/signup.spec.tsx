@@ -4,14 +4,18 @@ import { Router } from 'react-router'
 
 import { SignUp } from './signup'
 
+const history = createMemoryHistory({ initialEntries: ['/signup'] })
+const makeSut = (): void => {
+  render(
+    <Router history={history}>
+      <SignUp />
+    </Router>,
+  )
+}
+
 describe('SignUp Component', () => {
   it('should start with correct initial state', () => {
-    const history = createMemoryHistory({ initialEntries: ['/signup'] })
-    render(
-      <Router history={history}>
-        <SignUp />
-      </Router>,
-    )
+    makeSut()
     expect(screen.getByTestId('submit')).toBeDisabled()
     expect(screen.getByTestId('name')).not.toHaveValue()
     expect(screen.getByTestId('ra')).not.toHaveValue()
