@@ -15,10 +15,12 @@ export class AuthenticationSpy implements Authentication {
 
 export class AddAccountSpy implements AddAccount {
   params: AddAccount.Params
+  callsCount = 0
   result = mockAccountModel()
 
   async add(params: AddAccount.Params): Promise<AddAccount.Result> {
     this.params = params
+    this.callsCount += 1
     return null
   }
 }

@@ -12,6 +12,17 @@ type SutTypes = {
   addAccountSpy: AddAccountSpy
 }
 
+const simulateValidSubmit = async (addAccountParams = mockAddAccountParams()): Promise<void> => {
+  await simulateFieldInteraction('name', addAccountParams.name)
+  await simulateFieldInteraction('course', addAccountParams.course)
+  await simulateFieldInteraction('ra', addAccountParams.ra)
+  await simulateFieldInteraction('cpf', addAccountParams.cpf)
+  await simulateFieldInteraction('email', addAccountParams.email)
+  await simulateFieldInteraction('password', addAccountParams.password)
+  await simulateFieldInteraction('confirmPassword', addAccountParams.confirmPassword)
+  fireEvent.click(screen.getByTestId('submit'))
+}
+
 const history = createMemoryHistory({ initialEntries: ['/signup'] })
 const makeSut = (): SutTypes => {
   const addAccountSpy = new AddAccountSpy()
@@ -131,15 +142,15 @@ describe('SignUp Component', () => {
   it('should call AddAccount with correct values', async () => {
     const { addAccountSpy } = makeSut()
     const addAccountParams = mockAddAccountParams()
-    await simulateFieldInteraction('name', addAccountParams.name)
-    await simulateFieldInteraction('course', addAccountParams.course)
-    await simulateFieldInteraction('ra', addAccountParams.ra)
-    await simulateFieldInteraction('cpf', addAccountParams.cpf)
-    await simulateFieldInteraction('email', addAccountParams.email)
-    await simulateFieldInteraction('password', addAccountParams.password)
-    await simulateFieldInteraction('confirmPassword', addAccountParams.confirmPassword)
-    fireEvent.click(screen.getByTestId('submit'))
-    await waitFor(() => addAccountSpy.add)
+    await waitFor(async () => simulateValidSubmit(addAccountParams))
     expect(addAccountSpy.params).toEqual(addAccountParams)
+  })
+
+  it('should call AddAccount only once', async () => {
+    const { addAccountSpy } = makeSut()
+    await waitFor(() => simulateValidSubmit)
+    await simulateValidSubmit()
+    await waitFor(() => addAccountSpy.add)
+    expect(addAccountSpy.callsCount).toBe(1)
   })
 })
