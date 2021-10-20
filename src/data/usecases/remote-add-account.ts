@@ -11,9 +11,9 @@ export class RemoteAddAccount implements AddAccount {
     if (httpResponse.statusCode === HttpStatusCode.FORBIDDEN) {
       throw new EmailInUseError()
     }
-    if ([HttpStatusCode.INTERNAL_SERVER_ERROR, HttpStatusCode.BAD_REQUEST, HttpStatusCode.NOT_FOUND].includes(httpResponse.statusCode)) {
-      throw new UnexpectedError()
+    if (httpResponse.statusCode === HttpStatusCode.SUCCESS) {
+      return httpResponse.body
     }
-    return null
+    throw new UnexpectedError()
   }
 }
