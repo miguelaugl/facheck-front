@@ -6,12 +6,14 @@ import { Router } from 'react-router-dom'
 
 import { InvalidCredentialsError } from '@/domain/errors'
 import { validationMessages } from '@/presentation/config/yupLocale'
+import { ApiContext } from '@/presentation/contexts'
 import { AuthenticationSpy } from '@/presentation/tests'
 
 import { Login } from './login'
 
 type SutTypes = {
   authenticationSpy: AuthenticationSpy
+  setCurrentAccountMock: () => void
 }
 
 const simulateFieldInteraction = async (fieldName: string, value: any): Promise<void> => {
@@ -34,13 +36,22 @@ const simulateValidSubmit = async (email = faker.internet.email(), password = '@
 const history = createMemoryHistory({ initialEntries: ['/login'] })
 const makeSut = (): SutTypes => {
   const authenticationSpy = new AuthenticationSpy()
+  const setCurrentAccountMock = jest.fn()
   render(
-    <Router history={history}>
-      <Login authentication={authenticationSpy} />
-    </Router>,
+    <ApiContext.Provider
+      value={{
+        setCurrentAccount: setCurrentAccountMock,
+      }}
+    >
+      <Router history={history}>
+        <Login authentication={authenticationSpy} />
+      </Router>
+      ,
+    </ApiContext.Provider>,
   )
   return {
     authenticationSpy,
+    setCurrentAccountMock,
   }
 }
 
@@ -142,5 +153,12 @@ describe('Login Component', () => {
     await waitFor(() => simulateValidSubmit)
     expect(history.length).toBe(1)
     expect(history.location.pathname).toBe('/')
+  })
+
+  it('should call SaveAcessToken on success', async () => {
+    const { authenticationSpy, setCurrentAccountMock } = makeSut()
+    await simulateValidSubmit()
+    await waitFor(() => authenticationSpy.auth)
+    expect(setCurrentAccountMock).toHaveBeenCalledWith(authenticationSpy.result)
   })
 })
