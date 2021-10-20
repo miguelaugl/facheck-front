@@ -1,4 +1,5 @@
 /* eslint-disable no-template-curly-in-string */
+import { cpf } from 'cpf-cnpj-validator'
 import * as yup from 'yup'
 import { LocaleObject } from 'yup/lib/locale'
 
@@ -42,10 +43,15 @@ export const validationMessages = {
   ...defaultConfig,
   passwordStrengh: 'Deve conter 8 caracteres, uma letra maiúscula, uma letra minúscula, um número e um caractere especial',
   onlyDigits: 'Deve conter apenas dígitos',
+  cpf: 'Deve ter um formato de CPF válido',
 }
 
 yup.addMethod(yup.string, 'integer', function () {
   return this.matches(/^\d+$/, validationMessages.onlyDigits)
+})
+
+yup.addMethod(yup.string, 'cpf', function () {
+  return this.test('is-cpf', validationMessages.cpf, (value: string) => cpf.isValid(value))
 })
 
 yup.setLocale(defaultConfig)

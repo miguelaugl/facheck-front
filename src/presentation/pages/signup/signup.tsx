@@ -16,6 +16,7 @@ import styles from './signup-styles.scss'
 const validationSchema = yup.object().shape({
   name: yup.string().required(),
   ra: yup.string().required().integer(),
+  cpf: yup.string().required().cpf(),
 })
 
 type FormValues = {
