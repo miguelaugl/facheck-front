@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { AiFillIdcard } from 'react-icons/ai'
 import { IoMdSchool } from 'react-icons/io'
 import { MdAccountCircle } from 'react-icons/md'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import * as yup from 'yup'
 
 import { AddAccount } from '@/domain/usecases'
@@ -43,10 +43,12 @@ type Props = {
 }
 
 export const SignUp = ({ addAccount }: Props): JSX.Element => {
+  const history = useHistory()
   const [mainError, setMainError] = useState('')
   const onSubmit = async (values: FormValues, formikHelpers: FormikHelpers<FormValues>): Promise<void> => {
     try {
       await addAccount.add(values)
+      history.replace('/')
     } catch (error) {
       formikHelpers.setSubmitting(false)
       setMainError(error.message)
