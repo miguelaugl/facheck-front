@@ -1,13 +1,14 @@
 import { EmailIcon, LockIcon } from '@chakra-ui/icons'
 import { Heading, Stack, Link, Button, AlertIcon, Alert } from '@chakra-ui/react'
 import { Field, Formik, FormikHelpers } from 'formik'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useHistory } from 'react-router'
 import * as Yup from 'yup'
 
 import { Authentication } from '@/domain/usecases'
 import { Input, PasswordInput } from '@/presentation/components'
 import { validationMessages } from '@/presentation/config/yupLocale'
+import { ApiContext } from '@/presentation/contexts'
 import logoPurpleFontImg from '@/presentation/images/logo-purple-font.png'
 import logoWithProfessionalsImg from '@/presentation/images/logo-with-professionals.png'
 
@@ -30,11 +31,13 @@ type Props = {
 }
 
 export const Login = ({ authentication }: Props): JSX.Element => {
+  const { setCurrentAccount } = useContext(ApiContext)
   const history = useHistory()
   const [mainError, setMainError] = useState('')
   const onSubmit = async (values: FormValues, formikHelpers: FormikHelpers<FormValues>): Promise<void> => {
     try {
-      await authentication.auth(values)
+      const account = await authentication.auth(values)
+      setCurrentAccount(account)
       history.replace('/')
     } catch (error) {
       formikHelpers.setSubmitting(false)
