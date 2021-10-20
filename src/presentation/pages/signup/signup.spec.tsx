@@ -1,6 +1,8 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router'
+
+import { validationMessages } from '@/presentation/config/yupLocale'
 
 import { SignUp } from './signup'
 
@@ -24,5 +26,14 @@ describe('SignUp Component', () => {
     expect(screen.getByTestId('password')).not.toHaveValue()
     expect(screen.getByTestId('confirmPassword')).not.toHaveValue()
     expect(screen.queryByTestId('main-error')).not.toBeInTheDocument()
+  })
+
+  it('should show name validation error', async () => {
+    makeSut()
+    const nameInput = screen.getByTestId('name')
+    await waitFor(() => {
+      fireEvent.blur(nameInput)
+    })
+    expect(await screen.findByTestId('name-error-message')).toHaveTextContent(validationMessages.mixed.required as string)
   })
 })
