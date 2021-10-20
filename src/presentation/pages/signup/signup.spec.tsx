@@ -24,7 +24,9 @@ const simulateValidSubmit = async (addAccountParams = mockAddAccountParams()): P
   await simulateFieldInteraction('email', addAccountParams.email)
   await simulateFieldInteraction('password', addAccountParams.password)
   await simulateFieldInteraction('confirmPassword', addAccountParams.confirmPassword)
-  fireEvent.click(screen.getByTestId('submit'))
+  await waitFor(() => {
+    fireEvent.click(screen.getByTestId('submit'))
+  })
 }
 
 const history = createMemoryHistory({ initialEntries: ['/signup'] })
@@ -155,15 +157,15 @@ describe('SignUp Component', () => {
   it('should call AddAccount with correct values', async () => {
     const { addAccountSpy } = makeSut()
     const addAccountParams = mockAddAccountParams()
-    await waitFor(async () => simulateValidSubmit(addAccountParams))
+    await simulateValidSubmit(addAccountParams)
+    await waitFor(() => addAccountSpy.add)
     expect(addAccountSpy.params).toEqual(addAccountParams)
   })
 
   it('should call AddAccount only once', async () => {
     const { addAccountSpy } = makeSut()
-    await waitFor(() => simulateValidSubmit)
+    fireEvent.click(screen.getByTestId('submit'))
     await simulateValidSubmit()
-    await waitFor(() => addAccountSpy.add)
     expect(addAccountSpy.callsCount).toBe(1)
   })
 
@@ -199,5 +201,12 @@ describe('SignUp Component', () => {
     await simulateValidSubmit()
     await waitFor(() => addAccountSpy.add)
     expect(setCurrentAccountMock).toHaveBeenCalledWith(addAccountSpy.result)
+  })
+
+  it('should go to login page', async () => {
+    makeSut()
+    fireEvent.click(screen.getByTestId('login-link'))
+    expect(history.length).toBe(2)
+    expect(history.location.pathname).toBe('/login')
   })
 })
