@@ -8,19 +8,19 @@ import { Input, Props as BaseInputProps } from '@/presentation/components/input/
 const PasswordInputComponent = (props: BaseInputProps): JSX.Element => {
   const [isPasswordShown, setPasswordShown] = useState(false)
   const handleTogglePasswordShow = (): void => {
-    setPasswordShown(prevState => !prevState)
+    setPasswordShown((prevState) => !prevState)
   }
   return (
     <Input
       {...props}
       type={isPasswordShown ? 'text' : 'password'}
       rightElement={
-        <InputRightElement w="40px">
+        <InputRightElement w='40px'>
           <Button
-            colorScheme="gray"
-            w="32px"
-            minW="32px"
-            h="32px"
+            colorScheme='gray'
+            w='32px'
+            minW='32px'
+            h='32px'
             aria-label={isPasswordShown ? 'Esconder senha' : 'Mostrar senha'}
             onClick={handleTogglePasswordShow}
           >

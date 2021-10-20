@@ -10,7 +10,7 @@ export const Router = (): JSX.Element => {
     <ChakraProvider theme={theme}>
       <BrowserRouter>
         <Switch>
-          <Route path="/login" exact component={makeLogin} />
+          <Route path='/login' exact component={makeLogin} />
         </Switch>
       </BrowserRouter>
     </ChakraProvider>

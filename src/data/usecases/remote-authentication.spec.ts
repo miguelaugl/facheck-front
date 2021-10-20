@@ -16,7 +16,7 @@ class HttpClientSpy implements HttpClient {
     body: mockAccountModel(),
   }
 
-  async request (httpRequest: HttpRequest): Promise<HttpResponse> {
+  async request(httpRequest: HttpRequest): Promise<HttpResponse> {
     this.url = httpRequest.url
     this.body = httpRequest.body
     this.method = httpRequest.method

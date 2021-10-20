@@ -67,27 +67,21 @@ const InputComponent = ({
     <FormControl isDisabled={isDisabled} isInvalid={isFieldInvalid}>
       <FormLabel htmlFor={name}>{label}</FormLabel>
       <InputGroup>
-      {leftIcon && (
-        <InputLeftElement
-          pointerEvents="none"
-        >
-          {leftIcon}
-        </InputLeftElement>
-      )}
+        {leftIcon && <InputLeftElement pointerEvents='none'>{leftIcon}</InputLeftElement>}
         <ChakraInput
           id={id || name}
           name={name}
           type={type}
           data-testid={name}
           value={value}
-          focusBorderColor="purple.500"
+          focusBorderColor='purple.500'
           placeholder={placeholder}
           onChange={onChangeHandler}
           onBlur={onBlurHandler}
         />
         {rightElement}
         <ValidFeedbackIcon shouldShow={shouldShowValidFieldFeedback} />
-     </InputGroup>
+      </InputGroup>
       <FormHelperText>{helperText}</FormHelperText>
       <FormErrorMessage data-testid={`${name}-error-message`}>{errorMessage}</FormErrorMessage>
     </FormControl>

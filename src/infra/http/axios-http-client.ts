@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from 'axios'
 import { HttpClient, HttpRequest, HttpResponse } from '@/data/protocols'
 
 export class AxiosHttpClient implements HttpClient {
-  async request (httpRequest: HttpRequest): Promise<HttpResponse> {
+  async request(httpRequest: HttpRequest): Promise<HttpResponse> {
     let axiosResponse: AxiosResponse
     try {
       axiosResponse = await axios.request({

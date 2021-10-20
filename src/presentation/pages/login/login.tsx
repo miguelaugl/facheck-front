@@ -15,13 +15,9 @@ import styles from './login-styles.scss'
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email().required(),
-  password: Yup
-    .string()
+  password: Yup.string()
     .required()
-    .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
-      validationMessages.passwordStrengh,
-    ),
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/, validationMessages.passwordStrengh),
 })
 
 type FormValues = {
@@ -55,14 +51,26 @@ export const Login = ({ authentication }: Props): JSX.Element => {
               const hasMainError = !!mainError
               return (
                 <Stack spacing={4}>
-                  <img src={logoPurpleFontImg} alt="Logo Facheck" className={styles.formLogo}/>
-                  <Heading as="h1">Login</Heading>
-                  <Field label="Email:" name="email" leftIcon={<EmailIcon color="gray.300" />} component={Input} />
-                  <Field label="Senha:" name="password" leftIcon={<LockIcon color="gray.300" />} component={PasswordInput} />
-                  <Link alignSelf="flex-start" href="/">Não possui uma conta?</Link>
-                  <Button isLoading={isSubmitting} isDisabled={isDisabled} type="submit" isFullWidth onClick={submitForm} data-testid="submit">Entrar</Button>
+                  <img src={logoPurpleFontImg} alt='Logo Facheck' className={styles.formLogo} />
+                  <Heading as='h1'>Login</Heading>
+                  <Field label='Email:' name='email' leftIcon={<EmailIcon color='gray.300' />} component={Input} />
+                  <Field label='Senha:' name='password' leftIcon={<LockIcon color='gray.300' />} component={PasswordInput} />
+                  <Link alignSelf='flex-start' href='/'>
+                    Não possui uma conta?
+                  </Link>
+                  <Button
+                    size='lg'
+                    isLoading={isSubmitting}
+                    isDisabled={isDisabled}
+                    type='submit'
+                    isFullWidth
+                    onClick={submitForm}
+                    data-testid='submit'
+                  >
+                    Entrar
+                  </Button>
                   {hasMainError && (
-                    <Alert data-testid="main-error" status="error">
+                    <Alert data-testid='main-error' status='error'>
                       <AlertIcon />
                       {mainError}
                     </Alert>
@@ -73,7 +81,7 @@ export const Login = ({ authentication }: Props): JSX.Element => {
           </Formik>
         </div>
         <div className={styles.imageContainer}>
-          <img src={logoWithProfessionalsImg} alt="Profissionais com a logo ao fundo" />
+          <img src={logoWithProfessionalsImg} alt='Profissionais com a logo ao fundo' />
         </div>
       </div>
     </div>

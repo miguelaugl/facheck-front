@@ -5,10 +5,12 @@
     }
   },
   "extends": [
-    "standard-with-typescript",
-    "plugin:react/recommended"
+    "plugin:prettier/recommended",
+    "plugin:react/recommended",
+    "standard-with-typescript"
   ],
   "plugins": [
+    "prettier",
     "eslint-plugin-import-helpers",
     "eslint-plugin-unused-imports",
     "react"
@@ -59,6 +61,8 @@
     "@typescript-eslint/no-namespace": "off",
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "@typescript-eslint/space-before-function-paren": "off",
+    "space-before-function-paren": "off"
   }
 }
