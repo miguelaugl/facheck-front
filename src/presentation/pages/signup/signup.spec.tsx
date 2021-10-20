@@ -49,4 +49,17 @@ describe('SignUp Component', () => {
     })
     expect(await screen.findByTestId('ra-error-message')).toHaveTextContent(validationMessages.onlyDigits)
   })
+
+  it('should show cpf validation error', async () => {
+    makeSut()
+    const cpfInput = screen.getByTestId('cpf')
+    await waitFor(() => {
+      fireEvent.blur(cpfInput)
+    })
+    expect(await screen.findByTestId('cpf-error-message')).toHaveTextContent(validationMessages.mixed.required as string)
+    await waitFor(() => {
+      fireEvent.input(cpfInput, { target: { value: 'any_value' } })
+    })
+    expect(await screen.findByTestId('cpf-error-message')).toHaveTextContent(validationMessages.cpf)
+  })
 })
