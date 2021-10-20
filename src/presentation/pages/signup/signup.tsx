@@ -147,7 +147,7 @@ export const SignUp = ({ addAccount }: Props): JSX.Element => {
                   >
                     Entrar
                   </Button>
-                  <ChakraLink as={Link} to='/login' alignItems='center' textAlign='right'>
+                  <ChakraLink as={Link} to='/login' alignItems='center' textAlign='right' data-testid='login-link'>
                     Já sou cadastrado
                   </ChakraLink>
                   {hasMainError && (
