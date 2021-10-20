@@ -1,4 +1,4 @@
-import { EmailInUseError } from '@/domain/errors'
+import { EmailInUseError, UnexpectedError } from '@/domain/errors'
 import { AddAccount } from '@/domain/usecases'
 
 import { HttpClient, HttpStatusCode } from '../protocols'
@@ -10,6 +10,9 @@ export class RemoteAddAccount implements AddAccount {
     const httpResponse = await this.httpClient.request({ url: this.url, method: 'POST', body: params })
     if (httpResponse.statusCode === HttpStatusCode.FORBIDDEN) {
       throw new EmailInUseError()
+    }
+    if ([HttpStatusCode.INTERNAL_SERVER_ERROR, HttpStatusCode.BAD_REQUEST, HttpStatusCode.NOT_FOUND].includes(httpResponse.statusCode)) {
+      throw new UnexpectedError()
     }
     return null
   }
