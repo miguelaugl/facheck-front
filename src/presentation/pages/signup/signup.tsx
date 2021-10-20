@@ -1,6 +1,6 @@
 import { EmailIcon, LockIcon } from '@chakra-ui/icons'
 import { Heading, Stack, Button, AlertIcon, Alert, Icon, Link as ChakraLink } from '@chakra-ui/react'
-import { Field, Formik } from 'formik'
+import { Field, Formik, FormikHelpers } from 'formik'
 import { useState } from 'react'
 import { AiFillIdcard } from 'react-icons/ai'
 import { IoMdSchool } from 'react-icons/io'
@@ -43,9 +43,14 @@ type Props = {
 }
 
 export const SignUp = ({ addAccount }: Props): JSX.Element => {
-  const [mainError] = useState('')
-  const onSubmit = async (values: FormValues): Promise<void> => {
-    await addAccount.add(values)
+  const [mainError, setMainError] = useState('')
+  const onSubmit = async (values: FormValues, formikHelpers: FormikHelpers<FormValues>): Promise<void> => {
+    try {
+      await addAccount.add(values)
+    } catch (error) {
+      formikHelpers.setSubmitting(false)
+      setMainError(error.message)
+    }
   }
   return (
     <div className={styles.wrapper}>
