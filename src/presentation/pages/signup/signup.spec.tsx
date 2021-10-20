@@ -2,17 +2,27 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router'
 
+import { mockAddAccountParams } from '@/domain/tests'
 import { validationMessages } from '@/presentation/config/yup'
+import { AddAccountSpy, simulateFieldInteraction } from '@/presentation/tests'
 
 import { SignUp } from './signup'
 
+type SutTypes = {
+  addAccountSpy: AddAccountSpy
+}
+
 const history = createMemoryHistory({ initialEntries: ['/signup'] })
-const makeSut = (): void => {
+const makeSut = (): SutTypes => {
+  const addAccountSpy = new AddAccountSpy()
   render(
     <Router history={history}>
-      <SignUp />
+      <SignUp addAccount={addAccountSpy} />
     </Router>,
   )
+  return {
+    addAccountSpy,
+  }
 }
 
 describe('SignUp Component', () => {
@@ -41,6 +51,21 @@ describe('SignUp Component', () => {
       fireEvent.input(nameInput, { target: { value: 'aa' } })
     })
     expect(await screen.findByTestId('name-error-message')).toHaveTextContent(minLengthValidation)
+  })
+
+  it('should show course validation error', async () => {
+    makeSut()
+    const courseInput = screen.getByTestId('course')
+    await waitFor(() => {
+      fireEvent.blur(courseInput)
+    })
+    expect(await screen.findByTestId('course-error-message')).toHaveTextContent(validationMessages.mixed.required as string)
+    const courseMinLength = '3'
+    const minLengthValidation = (validationMessages.string.min as string).replace(/\${min}/, courseMinLength)
+    await waitFor(() => {
+      fireEvent.input(courseInput, { target: { value: 'aa' } })
+    })
+    expect(await screen.findByTestId('course-error-message')).toHaveTextContent(minLengthValidation)
   })
 
   it('should show ra validation error', async () => {
@@ -101,5 +126,20 @@ describe('SignUp Component', () => {
       fireEvent.input(confirmPasswordInput, { target: { value: 'other_value' } })
     })
     expect(await screen.findByTestId('confirmPassword-error-message')).toHaveTextContent('As senhas não batem.')
+  })
+
+  it('should call AddAccount with correct values', async () => {
+    const { addAccountSpy } = makeSut()
+    const addAccountParams = mockAddAccountParams()
+    await simulateFieldInteraction('name', addAccountParams.name)
+    await simulateFieldInteraction('course', addAccountParams.course)
+    await simulateFieldInteraction('ra', addAccountParams.ra)
+    await simulateFieldInteraction('cpf', addAccountParams.cpf)
+    await simulateFieldInteraction('email', addAccountParams.email)
+    await simulateFieldInteraction('password', addAccountParams.password)
+    await simulateFieldInteraction('confirmPassword', addAccountParams.confirmPassword)
+    fireEvent.click(screen.getByTestId('submit'))
+    await waitFor(() => addAccountSpy.add)
+    expect(addAccountSpy.params).toEqual(addAccountParams)
   })
 })
