@@ -54,6 +54,12 @@ describe('SignUp Component', () => {
       fireEvent.input(raInput, { target: { value: 'any_value' } })
     })
     expect(await screen.findByTestId('ra-error-message')).toHaveTextContent(validationMessages.onlyDigits)
+    await waitFor(() => {
+      fireEvent.input(raInput, { target: { value: '12345' } })
+    })
+    const raLength = '13'
+    const lengthMessage = (validationMessages.string.length as string).replace(/\${length}/, raLength)
+    expect(await screen.findByTestId('ra-error-message')).toHaveTextContent(lengthMessage)
   })
 
   it('should show email validation error', async () => {
