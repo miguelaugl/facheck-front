@@ -5,7 +5,7 @@ import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
 
 import { InvalidCredentialsError } from '@/domain/errors'
-import { validationMessages } from '@/presentation/config/yupLocale'
+import { validationMessages } from '@/presentation/config/yup'
 import { ApiContext } from '@/presentation/contexts'
 import { AuthenticationSpy } from '@/presentation/tests'
 

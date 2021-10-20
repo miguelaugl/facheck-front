@@ -15,6 +15,7 @@ import styles from './signup-styles.scss'
 
 const validationSchema = yup.object().shape({
   name: yup.string().required(),
+  ra: yup.string().required().integer(),
 })
 
 type FormValues = {
@@ -60,7 +61,14 @@ export const SignUp = (): JSX.Element => {
                     component={Input}
                     placeholder='Digite seu nome completo'
                   />
-                  <Field label='RA:' name='ra' leftIcon={<Icon as={AiFillIdcard} color='gray.300' />} component={Input} placeholder='Digite seu RA' />
+                  <Field
+                    label='RA:'
+                    name='ra'
+                    leftIcon={<Icon as={AiFillIdcard} color='gray.300' />}
+                    component={Input}
+                    placeholder='Digite seu RA'
+                    maxLength={13}
+                  />
                   <Field
                     label='CPF:'
                     name='cpf'

@@ -24,6 +24,7 @@ export type Props = {
   leftIcon?: React.ReactNode
   rightElement?: React.ReactNode
   isDisabled?: boolean
+  maxLength?: number
 }
 
 const InputComponent = ({
@@ -40,6 +41,7 @@ const InputComponent = ({
   placeholder,
   type = 'text',
   isDisabled,
+  maxLength,
 }: Props): JSX.Element => {
   const name = field?.name ?? nameProp
   const value = field?.value ?? valueProp
@@ -79,6 +81,7 @@ const InputComponent = ({
           placeholder={placeholder}
           onChange={onChangeHandler}
           onBlur={onBlurHandler}
+          maxLength={maxLength}
         />
         {rightElement}
         <ValidFeedbackIcon shouldShow={shouldShowValidFieldFeedback} />

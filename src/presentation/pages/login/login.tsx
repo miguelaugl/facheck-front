@@ -8,7 +8,7 @@ import * as Yup from 'yup'
 
 import { Authentication } from '@/domain/usecases'
 import { Input, PasswordInput } from '@/presentation/components'
-import { validationMessages } from '@/presentation/config/yupLocale'
+import { validationMessages } from '@/presentation/config/yup'
 import { ApiContext } from '@/presentation/contexts'
 import logoPurpleFontImg from '@/presentation/images/logo-purple-font.png'
 import logoWithProfessionalsImg from '@/presentation/images/logo-with-professionals.png'

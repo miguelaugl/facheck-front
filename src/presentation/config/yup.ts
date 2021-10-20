@@ -1,5 +1,5 @@
 /* eslint-disable no-template-curly-in-string */
-import { setLocale } from 'yup'
+import * as yup from 'yup'
 import { LocaleObject } from 'yup/lib/locale'
 
 const defaultConfig: LocaleObject = {
@@ -41,6 +41,11 @@ const defaultConfig: LocaleObject = {
 export const validationMessages = {
   ...defaultConfig,
   passwordStrengh: 'Deve conter 8 caracteres, uma letra maiúscula, uma letra minúscula, um número e um caractere especial',
+  onlyDigits: 'Deve conter apenas dígitos',
 }
 
-setLocale(defaultConfig)
+yup.addMethod(yup.string, 'integer', function () {
+  return this.matches(/^\d+$/, validationMessages.onlyDigits)
+})
+
+yup.setLocale(defaultConfig)

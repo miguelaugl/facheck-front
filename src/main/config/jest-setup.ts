@@ -1,2 +1,2 @@
 import '@testing-library/jest-dom'
-import '@/presentation/config/yupLocale'
+import '@/presentation/config/yup'
