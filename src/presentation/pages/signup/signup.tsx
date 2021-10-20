@@ -1,9 +1,10 @@
 import { EmailIcon, LockIcon } from '@chakra-ui/icons'
-import { Heading, Stack, Button, AlertIcon, Alert, Icon, Link } from '@chakra-ui/react'
+import { Heading, Stack, Button, AlertIcon, Alert, Icon, Link as ChakraLink } from '@chakra-ui/react'
 import { Field, Formik } from 'formik'
 import { useState } from 'react'
 import { AiFillIdcard } from 'react-icons/ai'
 import { MdAccountCircle } from 'react-icons/md'
+import { Link } from 'react-router-dom'
 
 import { Input, PasswordInput } from '@/presentation/components'
 import designerGirlPointingImg from '@/presentation/images/designer-girl-pointing.png'
@@ -84,9 +85,9 @@ export const SignUp = (): JSX.Element => {
                   >
                     Entrar
                   </Button>
-                  <Link href='/login' alignItems='center' textAlign='right'>
+                  <ChakraLink as={Link} to='/login' alignItems='center' textAlign='right'>
                     Já sou cadastrado
-                  </Link>
+                  </ChakraLink>
                   {hasMainError && (
                     <Alert data-testid='main-error' status='error'>
                       <AlertIcon />
