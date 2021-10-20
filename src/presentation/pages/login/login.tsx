@@ -1,5 +1,5 @@
 import { EmailIcon, LockIcon } from '@chakra-ui/icons'
-import { Heading, Stack, Link as ChakraLink, Button, AlertIcon, Alert } from '@chakra-ui/react'
+import { Heading, Stack, Link as ChakraLink, Button, AlertIcon, Alert, useToast } from '@chakra-ui/react'
 import { Field, Formik, FormikHelpers } from 'formik'
 import { useContext, useState } from 'react'
 import { useHistory } from 'react-router'
@@ -29,6 +29,7 @@ type Props = {
 }
 
 export const Login = ({ authentication }: Props): JSX.Element => {
+  const toast = useToast()
   const { setCurrentAccount } = useContext(ApiContext)
   const history = useHistory()
   const [mainError, setMainError] = useState('')
@@ -36,6 +37,11 @@ export const Login = ({ authentication }: Props): JSX.Element => {
     try {
       const account = await authentication.auth(values)
       setCurrentAccount(account)
+      toast({
+        status: 'success',
+        position: 'top',
+        description: 'Autenticado com sucesso.',
+      })
       history.replace('/')
     } catch (error) {
       formikHelpers.setSubmitting(false)

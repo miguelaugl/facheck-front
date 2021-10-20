@@ -82,6 +82,7 @@ export const SignUp = (): JSX.Element => {
                     leftIcon={<Icon as={AiFillIdcard} color='gray.300' />}
                     component={Input}
                     placeholder='Digite seu CPF'
+                    maxLength={14}
                   />
                   <Field
                     type='email'
