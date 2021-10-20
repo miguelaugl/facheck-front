@@ -1,4 +1,5 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import faker from 'faker'
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router'
 
@@ -152,5 +153,14 @@ describe('SignUp Component', () => {
     await simulateValidSubmit()
     await waitFor(() => addAccountSpy.add)
     expect(addAccountSpy.callsCount).toBe(1)
+  })
+
+  it('should not call AddAccount if form is invalid', async () => {
+    const { addAccountSpy } = makeSut()
+    await simulateFieldInteraction('email', faker.random.word())
+    const button = screen.getByTestId('submit')
+    fireEvent.click(button)
+    await waitFor(() => addAccountSpy.add)
+    expect(addAccountSpy.callsCount).toBe(0)
   })
 })
