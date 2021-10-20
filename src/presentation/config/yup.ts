@@ -54,12 +54,13 @@ yup.addMethod(yup.string, 'cpf', function () {
   return this.test('is-cpf', validationMessages.cpf, (value: string) => cpf.isValid(value))
 })
 
-yup.addMethod(
-  yup.string,
-  'passwordStrength',
-  function (regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/, message = validationMessages.passwordStrength) {
-    return this.matches(regex, message)
-  },
-)
+/**
+ * 8 characters, 1 upper case, 1 lower case, 1 number and 1 special character
+ */
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/
+
+yup.addMethod(yup.string, 'passwordStrength', function (regex = passwordRegex, message = validationMessages.passwordStrength) {
+  return this.matches(regex, message)
+})
 
 yup.setLocale(defaultConfig)
