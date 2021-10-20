@@ -1,7 +1,7 @@
 import { EmailIcon, LockIcon } from '@chakra-ui/icons'
-import { Heading, Stack, Button, AlertIcon, Alert, Icon, Link as ChakraLink } from '@chakra-ui/react'
+import { Heading, Stack, Button, AlertIcon, Alert, Icon, Link as ChakraLink, useToast } from '@chakra-ui/react'
 import { Field, Formik, FormikHelpers } from 'formik'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { AiFillIdcard } from 'react-icons/ai'
 import { IoMdSchool } from 'react-icons/io'
 import { MdAccountCircle } from 'react-icons/md'
@@ -10,6 +10,7 @@ import * as yup from 'yup'
 
 import { AddAccount } from '@/domain/usecases'
 import { PasswordFormikInput, FormikInput } from '@/presentation/components'
+import { ApiContext } from '@/presentation/contexts'
 import designerGirlPointingImg from '@/presentation/images/designer-girl-pointing.png'
 import logoPurpleFontImg from '@/presentation/images/logo-purple-font.png'
 
@@ -43,11 +44,19 @@ type Props = {
 }
 
 export const SignUp = ({ addAccount }: Props): JSX.Element => {
+  const toast = useToast()
+  const { setCurrentAccount } = useContext(ApiContext)
   const history = useHistory()
   const [mainError, setMainError] = useState('')
   const onSubmit = async (values: FormValues, formikHelpers: FormikHelpers<FormValues>): Promise<void> => {
     try {
-      await addAccount.add(values)
+      const account = await addAccount.add(values)
+      setCurrentAccount(account)
+      toast({
+        status: 'success',
+        position: 'top',
+        description: `Autenticado como ${account.name}.`,
+      })
       history.replace('/')
     } catch (error) {
       formikHelpers.setSubmitting(false)
