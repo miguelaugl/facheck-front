@@ -1,8 +1,9 @@
 import { EmailIcon, LockIcon } from '@chakra-ui/icons'
-import { Heading, Stack, Link, Button, AlertIcon, Alert } from '@chakra-ui/react'
+import { Heading, Stack, Link as ChakraLink, Button, AlertIcon, Alert } from '@chakra-ui/react'
 import { Field, Formik, FormikHelpers } from 'formik'
 import { useContext, useState } from 'react'
 import { useHistory } from 'react-router'
+import { Link } from 'react-router-dom'
 import * as Yup from 'yup'
 
 import { Authentication } from '@/domain/usecases'
@@ -64,9 +65,9 @@ export const Login = ({ authentication }: Props): JSX.Element => {
                     component={PasswordInput}
                     placeholder='Digite sua senha'
                   />
-                  <Link alignSelf='flex-start' href='/'>
+                  <ChakraLink as={Link} to='/signup' alignSelf='flex-start' data-testid='signup-link'>
                     Não possui uma conta?
-                  </Link>
+                  </ChakraLink>
                   <Button
                     size='lg'
                     isLoading={isSubmitting}
