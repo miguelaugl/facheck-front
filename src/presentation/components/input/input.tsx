@@ -74,6 +74,7 @@ const InputComponent = ({
           type={type}
           data-testid={name}
           value={value}
+          bgColor='white'
           focusBorderColor='purple.500'
           placeholder={placeholder}
           onChange={onChangeHandler}

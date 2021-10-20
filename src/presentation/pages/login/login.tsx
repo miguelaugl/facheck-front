@@ -53,11 +53,17 @@ export const Login = ({ authentication }: Props): JSX.Element => {
               const isDisabled = !isValid || !dirty
               const hasMainError = !!mainError
               return (
-                <Stack spacing={4}>
+                <Stack spacing={2}>
                   <img src={logoPurpleFontImg} alt='Logo Facheck' className={styles.formLogo} />
                   <Heading as='h1'>Login</Heading>
-                  <Field label='Email:' name='email' leftIcon={<EmailIcon color='gray.300' />} component={Input} />
-                  <Field label='Senha:' name='password' leftIcon={<LockIcon color='gray.300' />} component={PasswordInput} />
+                  <Field label='Email:' name='email' leftIcon={<EmailIcon color='gray.300' />} component={Input} placeholder='Digite seu email' />
+                  <Field
+                    label='Senha:'
+                    name='password'
+                    leftIcon={<LockIcon color='gray.300' />}
+                    component={PasswordInput}
+                    placeholder='Digite sua senha'
+                  />
                   <Link alignSelf='flex-start' href='/'>
                     Não possui uma conta?
                   </Link>

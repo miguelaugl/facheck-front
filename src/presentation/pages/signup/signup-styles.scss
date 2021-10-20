@@ -1,0 +1,47 @@
+.wrapper {
+  display: flex;
+  min-height: 100vh;
+}
+
+.container {
+  width: 100%;
+  max-width: 1180px;
+  padding: 0 32px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.formContainer {
+  flex: 1;
+  max-width: 460px;
+  margin-left: auto;
+
+  .formLogo {
+    display: none;
+  }
+}
+
+.imageContainer {
+  flex: 1;
+  margin-right: 32px;
+}
+
+@media only screen and (max-width: 800px) {
+  .imageContainer {
+    display: none;
+  }
+
+  .formContainer {
+    margin-left: 0;
+    max-width: unset;
+
+    .formLogo {
+      display: block;
+      max-width: 240px;
+      margin-left: auto;
+    }
+  }
+}
+
