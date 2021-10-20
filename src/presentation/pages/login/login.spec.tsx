@@ -161,4 +161,11 @@ describe('Login Component', () => {
     await waitFor(() => authenticationSpy.auth)
     expect(setCurrentAccountMock).toHaveBeenCalledWith(authenticationSpy.result)
   })
+
+  it('should go to signup page', async () => {
+    makeSut()
+    fireEvent.click(screen.getByTestId('signup-link'))
+    expect(history.length).toBe(2)
+    expect(history.location.pathname).toBe('/signup')
+  })
 })
