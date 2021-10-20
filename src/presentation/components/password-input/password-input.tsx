@@ -3,9 +3,9 @@ import { Button, InputRightElement } from '@chakra-ui/react'
 import { memo, useState } from 'react'
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io'
 
-import { Input, Props as BaseInputProps } from '@/presentation/components/input/input'
+import { Input, InputProps } from '@/presentation/components/input/input'
 
-const PasswordInputComponent = (props: BaseInputProps): JSX.Element => {
+const PasswordInputComponent = (props: InputProps): JSX.Element => {
   const [isPasswordShown, setPasswordShown] = useState(false)
   const handleTogglePasswordShow = (): void => {
     setPasswordShown((prevState) => !prevState)
@@ -23,8 +23,9 @@ const PasswordInputComponent = (props: BaseInputProps): JSX.Element => {
             h='32px'
             aria-label={isPasswordShown ? 'Esconder senha' : 'Mostrar senha'}
             onClick={handleTogglePasswordShow}
+            data-testid='button'
           >
-            <Icon as={isPasswordShown ? IoMdEyeOff : IoMdEye} />
+            <Icon data-testid='icon' as={isPasswordShown ? IoMdEyeOff : IoMdEye} />
           </Button>
         </InputRightElement>
       }

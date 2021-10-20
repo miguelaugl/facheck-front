@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 import * as Yup from 'yup'
 
 import { Authentication } from '@/domain/usecases'
-import { Input, PasswordInput } from '@/presentation/components'
+import { FormikInput, PasswordFormikInput } from '@/presentation/components'
 import { ApiContext } from '@/presentation/contexts'
 import logoPurpleFontImg from '@/presentation/images/logo-purple-font.png'
 import logoWithProfessionalsImg from '@/presentation/images/logo-with-professionals.png'
@@ -40,7 +40,7 @@ export const Login = ({ authentication }: Props): JSX.Element => {
       toast({
         status: 'success',
         position: 'top',
-        description: 'Autenticado com sucesso.',
+        description: `Autenticado como ${account.name}.`,
       })
       history.replace('/')
     } catch (error) {
@@ -65,14 +65,14 @@ export const Login = ({ authentication }: Props): JSX.Element => {
                     label='Email:'
                     name='email'
                     leftIcon={<EmailIcon color='gray.300' />}
-                    component={Input}
+                    component={FormikInput}
                     placeholder='Digite seu email'
                   />
                   <Field
                     label='Senha:'
                     name='password'
                     leftIcon={<LockIcon color='gray.300' />}
-                    component={PasswordInput}
+                    component={PasswordFormikInput}
                     placeholder='Digite sua senha'
                   />
                   <ChakraLink as={Link} to='/signup' alignSelf='flex-start' data-testid='signup-link'>

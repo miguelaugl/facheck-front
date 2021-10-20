@@ -7,7 +7,7 @@ import { MdAccountCircle } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import * as yup from 'yup'
 
-import { Input, PasswordInput } from '@/presentation/components'
+import { PasswordFormikInput, FormikInput } from '@/presentation/components'
 import designerGirlPointingImg from '@/presentation/images/designer-girl-pointing.png'
 import logoPurpleFontImg from '@/presentation/images/logo-purple-font.png'
 
@@ -65,14 +65,14 @@ export const SignUp = (): JSX.Element => {
                     label='Nome completo:'
                     name='name'
                     leftIcon={<Icon as={MdAccountCircle} color='gray.300' />}
-                    component={Input}
+                    component={FormikInput}
                     placeholder='Digite seu nome completo'
                   />
                   <Field
                     label='RA:'
                     name='ra'
                     leftIcon={<Icon as={AiFillIdcard} color='gray.300' />}
-                    component={Input}
+                    component={FormikInput}
                     placeholder='Digite seu RA'
                     maxLength={13}
                   />
@@ -80,7 +80,7 @@ export const SignUp = (): JSX.Element => {
                     label='CPF:'
                     name='cpf'
                     leftIcon={<Icon as={AiFillIdcard} color='gray.300' />}
-                    component={Input}
+                    component={FormikInput}
                     placeholder='Digite seu CPF'
                     maxLength={14}
                   />
@@ -89,21 +89,21 @@ export const SignUp = (): JSX.Element => {
                     label='Email:'
                     name='email'
                     leftIcon={<EmailIcon color='gray.300' />}
-                    component={Input}
+                    component={FormikInput}
                     placeholder='Digite seu email'
                   />
                   <Field
                     label='Senha:'
                     name='password'
                     leftIcon={<LockIcon color='gray.300' />}
-                    component={PasswordInput}
+                    component={PasswordFormikInput}
                     placeholder='Digite uma senha bem forte'
                   />
                   <Field
                     label='Confirmar senha:'
                     name='confirmPassword'
                     leftIcon={<LockIcon color='gray.300' />}
-                    component={PasswordInput}
+                    component={PasswordFormikInput}
                     placeholder='Repita sua senha'
                   />
                   <Button

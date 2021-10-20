@@ -1,12 +1,7 @@
 import { Input as ChakraInput, FormLabel, InputGroup, InputLeftElement, FormControl, FormHelperText, FormErrorMessage } from '@chakra-ui/react'
-import { FormikProps, FieldInputProps } from 'formik'
-import React, { ChangeEventHandler, useCallback, memo, HTMLInputTypeAttribute, ChangeEvent } from 'react'
+import React, { ChangeEventHandler, memo, HTMLInputTypeAttribute, FocusEventHandler } from 'react'
 
-import { ValidFeedbackIcon } from './valid-feedback-icon'
-
-export type Props = {
-  field?: FieldInputProps<any>
-  form?: FormikProps<any>
+export type InputProps = {
   /**
    * defauls to text
    */
@@ -20,53 +15,36 @@ export type Props = {
   name: string
   value?: string
   onChange?: ChangeEventHandler<HTMLInputElement>
+  onBlur?: FocusEventHandler<HTMLInputElement>
+  errorMessage?: string
   helperText?: string
   leftIcon?: React.ReactNode
   rightElement?: React.ReactNode
   isDisabled?: boolean
+  isInvalid?: boolean
   maxLength?: number
+  isTouched?: boolean
 }
 
 const InputComponent = ({
   id,
-  field,
-  form,
   label,
-  name: nameProp,
+  name,
   helperText,
-  value: valueProp,
+  value,
   onChange,
+  onBlur,
   leftIcon,
   rightElement,
   placeholder,
   type = 'text',
+  errorMessage = 'Inválido',
   isDisabled,
+  isInvalid,
   maxLength,
-}: Props): JSX.Element => {
-  const name = field?.name ?? nameProp
-  const value = field?.value ?? valueProp
-  const onChangeHandler = useCallback(
-    (e: ChangeEvent<HTMLInputElement>): void => {
-      form?.setFieldValue(name, e.target.value)
-      onChange?.(e)
-    },
-    [form, name, onChange],
-  )
-  const onBlurHandler = useCallback(
-    (e): void => {
-      form?.setFieldTouched(name, true)
-      form?.setFieldValue(name, e.target.value)
-    },
-    [form, name],
-  )
-  const getFieldError = (name: string, form: FormikProps<any>): string => {
-    return form.touched[name] || form.submitCount ? form.getFieldMeta(name).error : ''
-  }
-  const errorMessage = form && getFieldError(name, form)
-  const isFieldInvalid = !!errorMessage
-  const shouldShowValidFieldFeedback = !rightElement && !errorMessage && !!form?.touched[name]
+}: InputProps): JSX.Element => {
   return (
-    <FormControl isDisabled={isDisabled} isInvalid={isFieldInvalid}>
+    <FormControl isDisabled={isDisabled} isInvalid={isInvalid}>
       <FormLabel htmlFor={name}>{label}</FormLabel>
       <InputGroup>
         {leftIcon && <InputLeftElement pointerEvents='none'>{leftIcon}</InputLeftElement>}
@@ -79,12 +57,11 @@ const InputComponent = ({
           bgColor='white'
           focusBorderColor='purple.500'
           placeholder={placeholder}
-          onChange={onChangeHandler}
-          onBlur={onBlurHandler}
+          onChange={onChange}
+          onBlur={onBlur}
           maxLength={maxLength}
         />
         {rightElement}
-        <ValidFeedbackIcon shouldShow={shouldShowValidFieldFeedback} />
       </InputGroup>
       <FormHelperText>{helperText}</FormHelperText>
       <FormErrorMessage data-testid={`${name}-error-message`}>{errorMessage}</FormErrorMessage>
