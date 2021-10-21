@@ -9,5 +9,5 @@ export type CustomRouteProps = {
 } & RouteProps
 
 export const CustomRoute = (props: CustomRouteProps): JSX.Element => {
-  return props.isPrivate ? <PrivateRoute {...props} /> : <Route {...props} />
+  return props.isPrivate ? <PrivateRoute {...props} data-testid='private-route' /> : <Route {...props} />
 }
