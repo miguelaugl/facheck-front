@@ -19,4 +19,17 @@ describe('CustomRoute Component', () => {
     )
     expect(screen.getByText('Private')).toBeInTheDocument()
   })
+
+  it('should render Public Component', () => {
+    const history = createMemoryHistory()
+    const PublicComponent = (): JSX.Element => <>Public</>
+    render(
+      <ApiContext.Provider value={{ getCurrentAccount: () => ({ accessToken: 'any_token', name: 'any_name' }) }}>
+        <Router history={history}>
+          <CustomRoute component={PublicComponent} />
+        </Router>
+      </ApiContext.Provider>,
+    )
+    expect(screen.getByText('Public')).toBeInTheDocument()
+  })
 })
