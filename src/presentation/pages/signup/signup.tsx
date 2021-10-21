@@ -114,6 +114,7 @@ export const SignUp = ({ addAccount }: Props): JSX.Element => {
                       component={FormikInput}
                       placeholder='Digite seu RA'
                       maxLength={13}
+                      mask='onlyDigits'
                     />
                     <Field
                       label='CPF:'

@@ -32,7 +32,6 @@ export const withFormikHandlers =
       return form.touched[name] || form.submitCount ? form.getFieldMeta(name).error : ''
     }
     const errorMessage = form && getFieldError(field.name, form)
-    console.log(props.value, field.value)
     return (
       <Input
         {...props}

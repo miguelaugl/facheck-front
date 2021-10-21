@@ -102,10 +102,6 @@ describe('SignUp Component', () => {
     })
     expect(await screen.findByTestId('ra-error-message')).toHaveTextContent(validationMessages.mixed.required as string)
     await waitFor(() => {
-      fireEvent.input(raInput, { target: { value: 'any_value' } })
-    })
-    expect(await screen.findByTestId('ra-error-message')).toHaveTextContent(validationMessages.onlyDigits)
-    await waitFor(() => {
       fireEvent.input(raInput, { target: { value: '12345' } })
     })
     const raLength = '13'

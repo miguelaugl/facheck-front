@@ -1,8 +1,9 @@
 import { FieldFormatter } from '@/data/protocols'
-import { cpfMask } from '@/presentation/masks'
+import { cpfMask, onlyDigitsMask } from '@/presentation/masks'
 
 const masks = {
   cpf: cpfMask,
+  onlyDigits: onlyDigitsMask,
 }
 
 type Return = FieldFormatter & {
