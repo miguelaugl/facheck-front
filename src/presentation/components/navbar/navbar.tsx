@@ -18,7 +18,7 @@ export const Navbar = (): JSX.Element => {
       </Text>
       <Flex alignItems='center'>
         <Icon as={HiUser} me='2' boxSize='1.5rem' />
-        <Text>{account.name}</Text>
+        <Text data-testid='username'>{account.name}</Text>
       </Flex>
     </Flex>
   )
