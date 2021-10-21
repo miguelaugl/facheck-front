@@ -1,4 +1,4 @@
-import { Button, Flex, Icon, useColorModeValue, Text } from '@chakra-ui/react'
+import { Button, Flex, Icon, useColorModeValue, Text, ButtonProps } from '@chakra-ui/react'
 
 import { IconBox } from '@/presentation/components'
 
@@ -6,9 +6,9 @@ type Props = {
   text: string
   icon?: string | React.ReactNode
   isActive?: boolean
-}
+} & ButtonProps
 
-export const LinkButton = ({ text, icon, isActive }: Props): JSX.Element => {
+export const LinkButton = ({ text, icon, isActive, ...rest }: Props): JSX.Element => {
   const activeBg = useColorModeValue('white', 'gray.700')
   const inactiveBg = useColorModeValue('white', 'gray.700')
   const activeColor = useColorModeValue('gray.700', 'white')
@@ -42,6 +42,7 @@ export const LinkButton = ({ text, icon, isActive }: Props): JSX.Element => {
       _focus={{
         boxShadow: isActive ? '0px 7px 11px rgba(0, 0, 0, 0.04)' : 'none',
       }}
+      {...rest}
     >
       <Flex>
         {typeof icon === 'string' ? (
