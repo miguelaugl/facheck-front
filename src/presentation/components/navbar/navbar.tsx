@@ -13,7 +13,7 @@ export const Navbar = (): JSX.Element => {
   const activeRoute = routes.find((route) => route.path === location.pathname)
   return (
     <Flex w='100%' justifyContent='space-between' alignItems='center' padding='2' paddingLeft='4' paddingRight='8' mb='8'>
-      <Text fontSize='2xl' fontWeight='medium'>
+      <Text data-testid='screen-name' fontSize='2xl' fontWeight='medium'>
         {activeRoute.name}
       </Text>
       <Flex alignItems='center'>

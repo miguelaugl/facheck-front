@@ -34,4 +34,9 @@ describe('Navbar Component', () => {
     const { account } = makeSut()
     expect(screen.getByTestId('username')).toHaveTextContent(account.name)
   })
+
+  it('should present correct screen name', () => {
+    makeSut()
+    expect(screen.getByTestId('screen-name')).toHaveTextContent('Navbar')
+  })
 })
