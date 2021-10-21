@@ -16,6 +16,6 @@ export class RemoteLoadMonitorings implements LoadMonitorings {
     if (httpResponse.statusCode === HttpStatusCode.FORBIDDEN) {
       throw new AccessDeniedError()
     }
-    return null
+    return httpResponse.body
   }
 }
