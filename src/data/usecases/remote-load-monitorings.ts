@@ -1,5 +1,5 @@
 import { HttpClient, HttpStatusCode } from '@/data/protocols'
-import { UnexpectedError } from '@/domain/errors'
+import { AccessDeniedError, UnexpectedError } from '@/domain/errors'
 import { LoadMonitorings } from '@/domain/usecases'
 
 export class RemoteLoadMonitorings implements LoadMonitorings {
@@ -12,6 +12,9 @@ export class RemoteLoadMonitorings implements LoadMonitorings {
     })
     if (httpResponse.statusCode === HttpStatusCode.INTERNAL_SERVER_ERROR) {
       throw new UnexpectedError()
+    }
+    if (httpResponse.statusCode === HttpStatusCode.FORBIDDEN) {
+      throw new AccessDeniedError()
     }
     return null
   }
