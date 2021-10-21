@@ -1,8 +1,20 @@
 import { Flex, Text, Avatar } from '@chakra-ui/react'
+import { useEffect } from 'react'
 
+import { LoadMonitorings } from '@/domain/usecases'
 import { AdminLayout } from '@/presentation/layouts'
 
-export const Home = (): JSX.Element => {
+type Props = {
+  loadMonitorings: LoadMonitorings
+}
+
+export const Home = ({ loadMonitorings }: Props): JSX.Element => {
+  useEffect(() => {
+    loadMonitorings
+      .load()
+      .then(() => {})
+      .catch(() => {})
+  }, [])
   return (
     <AdminLayout>
       <Text fontSize='2xl' fontWeight='medium' mb='4'>
