@@ -10,7 +10,7 @@ export class RemoteLoadMonitorings implements LoadMonitorings {
       url: this.url,
       method: 'GET',
     })
-    if (httpResponse.statusCode === HttpStatusCode.INTERNAL_SERVER_ERROR) {
+    if (httpResponse.statusCode === HttpStatusCode.INTERNAL_SERVER_ERROR || httpResponse.statusCode === HttpStatusCode.NOT_FOUND) {
       throw new UnexpectedError()
     }
     if (httpResponse.statusCode === HttpStatusCode.FORBIDDEN) {
