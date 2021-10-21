@@ -2,9 +2,9 @@ import { Box, Stack, Icon, Flex } from '@chakra-ui/react'
 import { useContext } from 'react'
 import { IoMdLogOut } from 'react-icons/io'
 
-import { useLogout } from '@/hooks'
 import { Logo } from '@/presentation/components'
 import { RoutesContext } from '@/presentation/contexts'
+import { useLogout } from '@/presentation/hooks'
 
 import { LinkButton } from './link-button'
 import { SidebarLink } from './sidebar-link'

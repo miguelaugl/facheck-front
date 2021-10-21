@@ -122,6 +122,7 @@ export const SignUp = ({ addAccount }: Props): JSX.Element => {
                       component={FormikInput}
                       placeholder='Digite seu CPF'
                       maxLength={14}
+                      mask='cpf'
                     />
                     <Field
                       type='email'
