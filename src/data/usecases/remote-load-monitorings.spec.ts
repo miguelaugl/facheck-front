@@ -2,6 +2,7 @@ import faker from 'faker'
 
 import { HttpClientSpy } from '@/data/tests'
 import { AccessDeniedError, UnexpectedError } from '@/domain/errors'
+import { mockMonitoringModels } from '@/domain/tests/mock-monitoring'
 
 import { HttpStatusCode } from '../protocols'
 import { RemoteLoadMonitorings } from './remote-load-monitorings'
@@ -54,5 +55,16 @@ describe('RemoteLoadMonitorings Usecase', () => {
     }
     const promise = sut.load()
     await expect(promise).rejects.toThrow(new UnexpectedError())
+  })
+
+  it('should return a list of LoadSurveyList.Model if HttpClient returns 200', async () => {
+    const { sut, httpClientSpy } = makeSut()
+    const httpResult = mockMonitoringModels()
+    httpClientSpy.response = {
+      statusCode: HttpStatusCode.SUCCESS,
+      body: httpResult,
+    }
+    const surveyList = await sut.load()
+    expect(surveyList).toEqual(httpResult)
   })
 })
