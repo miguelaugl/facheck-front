@@ -64,6 +64,7 @@
     "react/react-in-jsx-scope": "off",
     "@typescript-eslint/space-before-function-paren": "off",
     "space-before-function-paren": "off",
-    "react/display-name": "off"
+    "react/display-name": "off",
+    "multiline-ternary": "off"
   }
 }
