@@ -1,6 +1,6 @@
 import { memo } from 'react'
 
 import { PasswordInput } from '@/presentation/components'
-import { withFormikHandlers } from '@/presentation/hocs/with-formik-handlers/with-formik-handlers'
+import { withFormikHandlers } from '@/presentation/hocs'
 
 export const PasswordFormikInput = memo(withFormikHandlers(PasswordInput))

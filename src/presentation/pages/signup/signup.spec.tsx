@@ -23,7 +23,7 @@ const simulateValidSubmit = async (addAccountParams = mockAddAccountParams()): P
   await simulateFieldInteraction('cpf', addAccountParams.cpf)
   await simulateFieldInteraction('email', addAccountParams.email)
   await simulateFieldInteraction('password', addAccountParams.password)
-  await simulateFieldInteraction('confirmPassword', addAccountParams.confirmPassword)
+  await simulateFieldInteraction('passwordConfirmation', addAccountParams.passwordConfirmation)
   await waitFor(() => {
     fireEvent.click(screen.getByTestId('submit'))
   })
@@ -60,7 +60,7 @@ describe('SignUp Component', () => {
     expect(screen.getByTestId('cpf')).not.toHaveValue()
     expect(screen.getByTestId('email')).not.toHaveValue()
     expect(screen.getByTestId('password')).not.toHaveValue()
-    expect(screen.getByTestId('confirmPassword')).not.toHaveValue()
+    expect(screen.getByTestId('passwordConfirmation')).not.toHaveValue()
     expect(screen.queryByTestId('main-error')).not.toBeInTheDocument()
   })
 
@@ -139,19 +139,19 @@ describe('SignUp Component', () => {
     expect(await screen.findByTestId('password-error-message')).toHaveTextContent(validationMessages.passwordStrength)
   })
 
-  it('should show confirmPassword validation error', async () => {
+  it('should show passwordConfirmation validation error', async () => {
     makeSut()
-    const confirmPasswordInput = screen.getByTestId('confirmPassword')
+    const passwordConfirmationInput = screen.getByTestId('passwordConfirmation')
     const passwordInput = screen.getByTestId('password')
     await waitFor(() => {
-      fireEvent.blur(confirmPasswordInput)
+      fireEvent.blur(passwordConfirmationInput)
     })
-    expect(await screen.findByTestId('confirmPassword-error-message')).toHaveTextContent(validationMessages.mixed.required as string)
+    expect(await screen.findByTestId('passwordConfirmation-error-message')).toHaveTextContent(validationMessages.mixed.required as string)
     await waitFor(() => {
       fireEvent.input(passwordInput, { target: { value: '@Teste12345' } })
-      fireEvent.input(confirmPasswordInput, { target: { value: 'other_value' } })
+      fireEvent.input(passwordConfirmationInput, { target: { value: 'other_value' } })
     })
-    expect(await screen.findByTestId('confirmPassword-error-message')).toHaveTextContent('As senhas não batem.')
+    expect(await screen.findByTestId('passwordConfirmation-error-message')).toHaveTextContent('As senhas não batem.')
   })
 
   it('should call AddAccount with correct values', async () => {

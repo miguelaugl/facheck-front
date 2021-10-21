@@ -14,8 +14,8 @@ export const mockAddAccountParams = (): AddAccount.Params => {
     name: faker.name.findName(),
     email: faker.internet.email(),
     password,
-    confirmPassword: password,
-    course: faker.database.column(),
+    passwordConfirmation: password,
+    course: faker.random.words(),
     cpf: '00871260018',
     ra: '1234567891234',
   }

@@ -23,7 +23,7 @@ const validationSchema = yup.object().shape({
   cpf: yup.string().required().cpf(),
   email: yup.string().required().email(),
   password: yup.string().required().passwordStrength(),
-  confirmPassword: yup
+  passwordConfirmation: yup
     .string()
     .required()
     .oneOf([yup.ref('password')], 'As senhas não batem.'),
@@ -33,7 +33,7 @@ type FormValues = {
   name: string
   email: string
   password: string
-  confirmPassword: string
+  passwordConfirmation: string
   ra: string
   course: string
   cpf: string
@@ -71,7 +71,7 @@ export const SignUp = ({ addAccount }: Props): JSX.Element => {
         </div>
         <div className={styles.formContainer}>
           <Formik
-            initialValues={{ email: '', password: '', confirmPassword: '', cpf: '', course: '', name: '', ra: '' }}
+            initialValues={{ email: '', password: '', passwordConfirmation: '', cpf: '', course: '', name: '', ra: '' }}
             onSubmit={onSubmit}
             validationSchema={validationSchema}
           >
@@ -131,7 +131,7 @@ export const SignUp = ({ addAccount }: Props): JSX.Element => {
                   />
                   <Field
                     label='Confirmar senha:'
-                    name='confirmPassword'
+                    name='passwordConfirmation'
                     leftIcon={<LockIcon color='gray.300' />}
                     component={PasswordFormikInput}
                     placeholder='Repita sua senha'

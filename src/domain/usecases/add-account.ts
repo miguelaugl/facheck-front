@@ -9,7 +9,7 @@ export namespace AddAccount {
     name: string
     email: string
     password: string
-    confirmPassword: string
+    passwordConfirmation: string
     ra: string
     course: string
     cpf: string
