@@ -1,7 +1,7 @@
 import faker from 'faker'
 
 import { HttpClientSpy } from '@/data/tests'
-import { UnexpectedError } from '@/domain/errors'
+import { AccessDeniedError, UnexpectedError } from '@/domain/errors'
 
 import { HttpStatusCode } from '../protocols'
 import { RemoteLoadMonitorings } from './remote-load-monitorings'
@@ -36,5 +36,14 @@ describe('RemoteLoadMonitorings Usecase', () => {
     }
     const promise = sut.load()
     await expect(promise).rejects.toThrow(new UnexpectedError())
+  })
+
+  it('should throw AccessDeniedError if HttpClient returns 403', async () => {
+    const { sut, httpClientSpy } = makeSut()
+    httpClientSpy.response = {
+      statusCode: HttpStatusCode.FORBIDDEN,
+    }
+    const promise = sut.load()
+    await expect(promise).rejects.toThrow(new AccessDeniedError())
   })
 })
