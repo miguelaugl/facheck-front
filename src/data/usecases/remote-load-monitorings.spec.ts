@@ -46,4 +46,13 @@ describe('RemoteLoadMonitorings Usecase', () => {
     const promise = sut.load()
     await expect(promise).rejects.toThrow(new AccessDeniedError())
   })
+
+  it('should throw UnexpectedError if HttpClient returns 404', async () => {
+    const { sut, httpClientSpy } = makeSut()
+    httpClientSpy.response = {
+      statusCode: HttpStatusCode.NOT_FOUND,
+    }
+    const promise = sut.load()
+    await expect(promise).rejects.toThrow(new UnexpectedError())
+  })
 })
