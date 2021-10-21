@@ -1,7 +1,9 @@
 import faker from 'faker'
 
 import { HttpClientSpy } from '@/data/tests'
+import { UnexpectedError } from '@/domain/errors'
 
+import { HttpStatusCode } from '../protocols'
 import { RemoteLoadMonitorings } from './remote-load-monitorings'
 
 type SutTypes = {
@@ -25,5 +27,14 @@ describe('RemoteLoadMonitorings Usecase', () => {
     await sut.load()
     expect(httpClientSpy.url).toBe(url)
     expect(httpClientSpy.method).toBe('GET')
+  })
+
+  it('should throw UnexpectedError if HttpClient returns 500', async () => {
+    const { sut, httpClientSpy } = makeSut()
+    httpClientSpy.response = {
+      statusCode: HttpStatusCode.INTERNAL_SERVER_ERROR,
+    }
+    const promise = sut.load()
+    await expect(promise).rejects.toThrow(new UnexpectedError())
   })
 })
