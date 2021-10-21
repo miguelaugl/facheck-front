@@ -3,7 +3,6 @@ import faker from 'faker'
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router'
 
-import { EmailInUseError } from '@/domain/errors'
 import { mockAddAccountParams } from '@/domain/tests'
 import { validationMessages } from '@/presentation/config/yup'
 import { ApiContext } from '@/presentation/contexts'
@@ -172,17 +171,6 @@ describe('SignUp Component', () => {
     fireEvent.click(button)
     await waitFor(() => addAccountSpy.add)
     expect(addAccountSpy.callsCount).toBe(0)
-  })
-
-  it('should present error if AddAccount fails', async () => {
-    const { addAccountSpy } = makeSut()
-    const error = new EmailInUseError()
-    jest.spyOn(addAccountSpy, 'add').mockImplementationOnce(() => {
-      throw error
-    })
-    await simulateValidSubmit()
-    await waitFor(() => addAccountSpy.add)
-    expect(screen.getByTestId('main-error')).toHaveTextContent(error.message)
   })
 
   it('should go to home on submit success', async () => {

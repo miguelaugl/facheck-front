@@ -1,7 +1,7 @@
 import { EmailIcon, LockIcon } from '@chakra-ui/icons'
-import { Heading, Stack, Button, AlertIcon, Alert, Icon, Link as ChakraLink, useToast, SlideFade } from '@chakra-ui/react'
+import { Heading, Stack, Button, Icon, Link as ChakraLink, useToast, SlideFade } from '@chakra-ui/react'
 import { Field, Formik, Form, FormikHelpers } from 'formik'
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { AiFillIdcard } from 'react-icons/ai'
 import { IoMdSchool } from 'react-icons/io'
 import { MdAccountCircle } from 'react-icons/md'
@@ -47,7 +47,6 @@ export const SignUp = ({ addAccount }: Props): JSX.Element => {
   const toast = useToast()
   const { setCurrentAccount } = useContext(ApiContext)
   const history = useHistory()
-  const [mainError, setMainError] = useState('')
   const onSubmit = async (values: FormValues, formikHelpers: FormikHelpers<FormValues>): Promise<void> => {
     try {
       const account = await addAccount.add(values)
@@ -60,7 +59,11 @@ export const SignUp = ({ addAccount }: Props): JSX.Element => {
       history.replace('/')
     } catch (error) {
       formikHelpers.setSubmitting(false)
-      setMainError(error.message)
+      toast({
+        status: 'error',
+        position: 'top',
+        description: error.message,
+      })
     }
   }
   return (
@@ -86,7 +89,6 @@ export const SignUp = ({ addAccount }: Props): JSX.Element => {
             >
               {({ isSubmitting, isValid, dirty }) => {
                 const isDisabled = !isValid || !dirty
-                const hasMainError = !!mainError
                 return (
                   <Stack as={Form} spacing={2}>
                     <img src={logoPurpleFontImg} alt='Logo Facheck' className={styles.formLogo} />
@@ -153,12 +155,6 @@ export const SignUp = ({ addAccount }: Props): JSX.Element => {
                     <ChakraLink as={Link} to='/login' alignItems='center' textAlign='right' data-testid='login-link'>
                       Já sou cadastrado
                     </ChakraLink>
-                    {hasMainError && (
-                      <Alert data-testid='main-error' status='error'>
-                        <AlertIcon />
-                        {mainError}
-                      </Alert>
-                    )}
                   </Stack>
                 )
               }}
