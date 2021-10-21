@@ -1,6 +1,6 @@
 import { EmailIcon, LockIcon } from '@chakra-ui/icons'
 import { Heading, Stack, Link as ChakraLink, Button, AlertIcon, Alert, useToast, SlideFade } from '@chakra-ui/react'
-import { Field, Formik, FormikHelpers } from 'formik'
+import { Field, Form, Formik, FormikHelpers } from 'formik'
 import { useContext, useState } from 'react'
 import { useHistory } from 'react-router'
 import { Link } from 'react-router-dom'
@@ -62,11 +62,11 @@ export const Login = ({ authentication }: Props): JSX.Element => {
             }}
           >
             <Formik initialValues={{ email: '', password: '' }} onSubmit={onSubmit} validationSchema={validationSchema}>
-              {({ isSubmitting, isValid, dirty, submitForm }) => {
+              {({ isSubmitting, isValid, dirty }) => {
                 const isDisabled = !isValid || !dirty
                 const hasMainError = !!mainError
                 return (
-                  <Stack spacing={2}>
+                  <Stack as={Form} spacing={2}>
                     <img src={logoPurpleFontImg} alt='Logo Facheck' className={styles.formLogo} />
                     <Heading as='h1'>Login</Heading>
                     <Field
@@ -87,15 +87,7 @@ export const Login = ({ authentication }: Props): JSX.Element => {
                     <ChakraLink as={Link} to='/signup' alignSelf='flex-start' data-testid='signup-link'>
                       Não possui uma conta?
                     </ChakraLink>
-                    <Button
-                      size='lg'
-                      isLoading={isSubmitting}
-                      isDisabled={isDisabled}
-                      type='submit'
-                      isFullWidth
-                      onClick={submitForm}
-                      data-testid='submit'
-                    >
+                    <Button size='lg' isLoading={isSubmitting} isDisabled={isDisabled} type='submit' isFullWidth data-testid='submit'>
                       Entrar
                     </Button>
                     {hasMainError && (

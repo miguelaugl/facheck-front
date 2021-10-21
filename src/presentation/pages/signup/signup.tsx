@@ -1,7 +1,7 @@
 import { EmailIcon, LockIcon } from '@chakra-ui/icons'
 import { Heading, Stack, Button, AlertIcon, Alert, Icon, Link as ChakraLink, useToast, SlideFade } from '@chakra-ui/react'
-import { Field, Formik, FormikHelpers } from 'formik'
-import { useContext, useState } from 'react'
+import { Field, Formik, Form, FormikHelpers } from 'formik'
+import React, { useContext, useState } from 'react'
 import { AiFillIdcard } from 'react-icons/ai'
 import { IoMdSchool } from 'react-icons/io'
 import { MdAccountCircle } from 'react-icons/md'
@@ -84,11 +84,11 @@ export const SignUp = ({ addAccount }: Props): JSX.Element => {
               onSubmit={onSubmit}
               validationSchema={validationSchema}
             >
-              {({ isSubmitting, isValid, dirty, submitForm }) => {
+              {({ isSubmitting, isValid, dirty }) => {
                 const isDisabled = !isValid || !dirty
                 const hasMainError = !!mainError
                 return (
-                  <Stack spacing={2}>
+                  <Stack as={Form} spacing={2}>
                     <img src={logoPurpleFontImg} alt='Logo Facheck' className={styles.formLogo} />
                     <Heading as='h1' textAlign='right'>
                       Cadastro do aluno
@@ -147,15 +147,7 @@ export const SignUp = ({ addAccount }: Props): JSX.Element => {
                       component={PasswordFormikInput}
                       placeholder='Repita sua senha'
                     />
-                    <Button
-                      size='lg'
-                      isLoading={isSubmitting}
-                      isDisabled={isDisabled}
-                      type='submit'
-                      isFullWidth
-                      onClick={submitForm}
-                      data-testid='submit'
-                    >
+                    <Button size='lg' isLoading={isSubmitting} isDisabled={isDisabled} type='submit' isFullWidth data-testid='submit'>
                       Entrar
                     </Button>
                     <ChakraLink as={Link} to='/login' alignItems='center' textAlign='right' data-testid='login-link'>
