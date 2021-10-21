@@ -57,7 +57,7 @@ describe('RemoteLoadMonitorings Usecase', () => {
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
 
-  it('should return a list of LoadSurveyList.Model if HttpClient returns 200', async () => {
+  it('should return a list of LoadMonitorings.Model if HttpClient returns 200', async () => {
     const { sut, httpClientSpy } = makeSut()
     const httpResult = mockMonitoringModels()
     httpClientSpy.response = {
@@ -66,5 +66,16 @@ describe('RemoteLoadMonitorings Usecase', () => {
     }
     const surveyList = await sut.load()
     expect(surveyList).toEqual(httpResult)
+  })
+
+  it('should return a empty list if HttpClient returns 204', async () => {
+    const { sut, httpClientSpy } = makeSut()
+    const httpResult = mockMonitoringModels()
+    httpClientSpy.response = {
+      statusCode: HttpStatusCode.NO_CONTENT,
+      body: httpResult,
+    }
+    const surveyList = await sut.load()
+    expect(surveyList).toEqual([])
   })
 })
