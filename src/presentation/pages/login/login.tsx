@@ -1,5 +1,5 @@
 import { EmailIcon, LockIcon } from '@chakra-ui/icons'
-import { Heading, Stack, Link as ChakraLink, Button, AlertIcon, Alert, useToast } from '@chakra-ui/react'
+import { Heading, Stack, Link as ChakraLink, Button, AlertIcon, Alert, useToast, SlideFade } from '@chakra-ui/react'
 import { Field, Formik, FormikHelpers } from 'formik'
 import { useContext, useState } from 'react'
 import { useHistory } from 'react-router'
@@ -52,53 +52,63 @@ export const Login = ({ authentication }: Props): JSX.Element => {
     <div className={styles.wrapper}>
       <div className={styles.container}>
         <div className={styles.formContainer}>
-          <Formik initialValues={{ email: '', password: '' }} onSubmit={onSubmit} validationSchema={validationSchema}>
-            {({ isSubmitting, isValid, dirty, submitForm }) => {
-              const isDisabled = !isValid || !dirty
-              const hasMainError = !!mainError
-              return (
-                <Stack spacing={2}>
-                  <img src={logoPurpleFontImg} alt='Logo Facheck' className={styles.formLogo} />
-                  <Heading as='h1'>Login</Heading>
-                  <Field
-                    type='email'
-                    label='Email:'
-                    name='email'
-                    leftIcon={<EmailIcon color='gray.300' />}
-                    component={FormikInput}
-                    placeholder='Digite seu email'
-                  />
-                  <Field
-                    label='Senha:'
-                    name='password'
-                    leftIcon={<LockIcon color='gray.300' />}
-                    component={PasswordFormikInput}
-                    placeholder='Digite sua senha'
-                  />
-                  <ChakraLink as={Link} to='/signup' alignSelf='flex-start' data-testid='signup-link'>
-                    Não possui uma conta?
-                  </ChakraLink>
-                  <Button
-                    size='lg'
-                    isLoading={isSubmitting}
-                    isDisabled={isDisabled}
-                    type='submit'
-                    isFullWidth
-                    onClick={submitForm}
-                    data-testid='submit'
-                  >
-                    Entrar
-                  </Button>
-                  {hasMainError && (
-                    <Alert data-testid='main-error' status='error'>
-                      <AlertIcon />
-                      {mainError}
-                    </Alert>
-                  )}
-                </Stack>
-              )
+          <SlideFade
+            in
+            offsetX='-20px'
+            transition={{
+              enter: {
+                duration: 0.5,
+              },
             }}
-          </Formik>
+          >
+            <Formik initialValues={{ email: '', password: '' }} onSubmit={onSubmit} validationSchema={validationSchema}>
+              {({ isSubmitting, isValid, dirty, submitForm }) => {
+                const isDisabled = !isValid || !dirty
+                const hasMainError = !!mainError
+                return (
+                  <Stack spacing={2}>
+                    <img src={logoPurpleFontImg} alt='Logo Facheck' className={styles.formLogo} />
+                    <Heading as='h1'>Login</Heading>
+                    <Field
+                      type='email'
+                      label='Email:'
+                      name='email'
+                      leftIcon={<EmailIcon color='gray.300' />}
+                      component={FormikInput}
+                      placeholder='Digite seu email'
+                    />
+                    <Field
+                      label='Senha:'
+                      name='password'
+                      leftIcon={<LockIcon color='gray.300' />}
+                      component={PasswordFormikInput}
+                      placeholder='Digite sua senha'
+                    />
+                    <ChakraLink as={Link} to='/signup' alignSelf='flex-start' data-testid='signup-link'>
+                      Não possui uma conta?
+                    </ChakraLink>
+                    <Button
+                      size='lg'
+                      isLoading={isSubmitting}
+                      isDisabled={isDisabled}
+                      type='submit'
+                      isFullWidth
+                      onClick={submitForm}
+                      data-testid='submit'
+                    >
+                      Entrar
+                    </Button>
+                    {hasMainError && (
+                      <Alert data-testid='main-error' status='error'>
+                        <AlertIcon />
+                        {mainError}
+                      </Alert>
+                    )}
+                  </Stack>
+                )
+              }}
+            </Formik>
+          </SlideFade>
         </div>
         <div className={styles.imageContainer}>
           <img src={logoWithProfessionalsImg} alt='Profissionais com a logo ao fundo' />
