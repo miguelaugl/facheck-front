@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
 
@@ -34,8 +34,14 @@ const makeSut = (): SutTypes => {
 }
 
 describe('Home Component', () => {
-  it('should call LoadMonitorings', () => {
+  it('should call LoadMonitorings', async () => {
     const { loadMonitoringsSpy } = makeSut()
+    await waitFor(() => screen.getByTestId('monitoring-list'))
     expect(loadMonitoringsSpy.callsCount).toBe(1)
+  })
+
+  it('should render 2 Monitorings on success', async () => {
+    makeSut()
+    expect(await screen.findAllByTestId('monitoring-item')).toHaveLength(2)
   })
 })
