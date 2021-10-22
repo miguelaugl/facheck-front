@@ -18,22 +18,31 @@ export const Home = ({ loadMonitorings }: Props): JSX.Element => {
   const [state, setState] = useState({
     monitorings: [] as LoadMonitorings.Result,
     error: '',
+    reload: false,
   })
+  const handleReload = (): void => {
+    setState((prevState) => ({ ...prevState, reload: !prevState.reload }))
+  }
   useEffect(() => {
     loadMonitorings
       .load()
       .then((monitorings) => setState((prevState) => ({ ...prevState, monitorings })))
       .catch(handleError)
-  }, [])
+  }, [state.reload])
   return (
     <AdminLayout>
       <Text as='h2' fontSize='2xl' fontWeight='medium' mb='4'>
         Monitorias
       </Text>
       {!!state.error && (
-        <Text color='red.500' data-testid='error'>
-          {state.error}
-        </Text>
+        <>
+          <Text color='red.500' data-testid='error'>
+            {state.error}
+          </Text>
+          <button data-testid='reload' onClick={handleReload}>
+            Tentar novamente
+          </button>
+        </>
       )}
       {!state.error && (
         <Flex as='ul' data-testid='monitoring-list'>
