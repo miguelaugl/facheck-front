@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
 
@@ -72,5 +72,15 @@ describe('Home Component', () => {
     await waitFor(() => screen.getByRole('heading'))
     expect(history.location.pathname).toBe('/login')
     expect(setCurrentAccountMock).toHaveBeenCalledWith(undefined)
+  })
+
+  it('should call LoadSurveyList on reload', async () => {
+    const loadMonitoringsSpy = new LoadMonitoringsSpy()
+    jest.spyOn(loadMonitoringsSpy, 'load').mockRejectedValueOnce(new UnexpectedError())
+    makeSut(loadMonitoringsSpy)
+    await waitFor(() => screen.getByRole('heading'))
+    fireEvent.click(screen.getByTestId('reload'))
+    expect(loadMonitoringsSpy.callsCount).toBe(1)
+    await waitFor(() => screen.getByRole('heading'))
   })
 })
