@@ -1,8 +1,7 @@
 import { IoMdHome } from 'react-icons/io'
 
-import { makeLogin, makeSignUp } from '@/main/factories/pages'
+import { makeHome, makeLogin, makeSignUp } from '@/main/factories/pages'
 import { CustomRouteProps } from '@/presentation/components'
-import { Home } from '@/presentation/pages'
 
 export const routes: CustomRouteProps[] = [
   {
@@ -18,7 +17,7 @@ export const routes: CustomRouteProps[] = [
   {
     path: '/',
     name: 'Dashboard',
-    component: Home,
+    component: makeHome,
     icon: <IoMdHome />,
     isPrivate: true,
   },
