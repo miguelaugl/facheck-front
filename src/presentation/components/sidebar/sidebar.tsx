@@ -7,6 +7,7 @@ import { RoutesContext } from '@/presentation/contexts'
 import { useLogout } from '@/presentation/hooks'
 
 import { LinkButton } from './link-button'
+import { MonitorSection } from './monitor-section/monitor-section'
 import { SidebarLink } from './sidebar-link'
 
 export const Sidebar = (): JSX.Element => {
@@ -42,6 +43,7 @@ export const Sidebar = (): JSX.Element => {
               return null
             })}
           </Box>
+          <MonitorSection />
         </Stack>
         <LinkButton text='Logout' icon={<Icon as={IoMdLogOut} />} mt='auto' onClick={logout} />
       </Flex>
