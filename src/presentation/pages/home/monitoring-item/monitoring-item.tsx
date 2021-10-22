@@ -1,15 +1,12 @@
 import { Flex, Text, Avatar } from '@chakra-ui/react'
 
+import { LoadMonitorings } from '@/domain/usecases'
+
 type Props = {
-  monitorName: string
-  subject: string
-  weekday: string
-  initHour: string
-  endHour: string
-  room: string
+  monitoring: LoadMonitorings.Model
 }
 
-export const MonitoringItem = ({ monitorName, subject, weekday, initHour, endHour, room }: Props): JSX.Element => {
+export const MonitoringItem = ({ monitoring }: Props): JSX.Element => {
   return (
     <Flex
       as='li'
@@ -23,16 +20,16 @@ export const MonitoringItem = ({ monitorName, subject, weekday, initHour, endHou
       mr='4'
       data-testid='monitoring-item'
     >
-      <Avatar size='xl' name={monitorName} mb='4' bg='purple.500' />
-      <Text>{monitorName} </Text>
+      <Avatar size='xl' name={monitoring.monitor.name} mb='4' bg='purple.500' />
+      <Text>{monitoring.monitor.name} </Text>
       <Text fontSize='lg' fontWeight='medium'>
-        {subject}
+        {monitoring.subject}
       </Text>
-      <Text>{weekday}</Text>
+      <Text>{monitoring.weekday}</Text>
       <Text fontSize='sm'>
-        Das {initHour}h até {endHour}h
+        Das {monitoring.initHour}h até {monitoring.endHour}h
       </Text>
-      <Text>{room}</Text>
+      <Text>{monitoring.room}</Text>
     </Flex>
   )
 }
