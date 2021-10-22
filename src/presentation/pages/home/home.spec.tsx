@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
 
-import { UnexpectedError } from '@/domain/errors'
+import { AccessDeniedError, UnexpectedError } from '@/domain/errors'
 import { mockAccountModel } from '@/domain/tests'
 import { ApiContext, RoutesContext } from '@/presentation/contexts'
 import { LoadMonitoringsSpy } from '@/presentation/tests'
@@ -11,14 +11,24 @@ import { Home } from './home'
 
 type SutTypes = {
   loadMonitoringsSpy: LoadMonitoringsSpy
+  setCurrentAccountMock: () => void
 }
 
 const history = createMemoryHistory({ initialEntries: ['/'] })
 const makeSut = (loadMonitoringsSpy = new LoadMonitoringsSpy()): SutTypes => {
+  const setCurrentAccountMock = jest.fn()
   render(
-    <RoutesContext.Provider value={{ routes: [{ path: '/', name: 'Dashboard' }] }}>
+    <RoutesContext.Provider
+      value={{
+        routes: [
+          { path: '/', name: 'Dashboard' },
+          { path: '/login', name: 'Login' },
+        ],
+      }}
+    >
       <ApiContext.Provider
         value={{
+          setCurrentAccount: setCurrentAccountMock,
           getCurrentAccount: () => mockAccountModel(),
         }}
       >
@@ -30,6 +40,7 @@ const makeSut = (loadMonitoringsSpy = new LoadMonitoringsSpy()): SutTypes => {
   )
   return {
     loadMonitoringsSpy,
+    setCurrentAccountMock,
   }
 }
 
@@ -52,5 +63,14 @@ describe('Home Component', () => {
     makeSut(loadMonitoringsSpy)
     expect(await screen.findByTestId('monitoring-list')).not.toBeInTheDocument()
     expect(await screen.findByTestId('error')).toHaveTextContent(error.message)
+  })
+
+  it('should logout on AccessDeniedError', async () => {
+    const loadMonitoringsSpy = new LoadMonitoringsSpy()
+    jest.spyOn(loadMonitoringsSpy, 'load').mockRejectedValueOnce(new AccessDeniedError())
+    const { setCurrentAccountMock } = makeSut(loadMonitoringsSpy)
+    await waitFor(() => screen.getByRole('heading'))
+    expect(history.location.pathname).toBe('/login')
+    expect(setCurrentAccountMock).toHaveBeenCalledWith(undefined)
   })
 })

@@ -27,7 +27,7 @@ export const Home = ({ loadMonitorings }: Props): JSX.Element => {
   }, [])
   return (
     <AdminLayout>
-      <Text fontSize='2xl' fontWeight='medium' mb='4'>
+      <Text as='h2' fontSize='2xl' fontWeight='medium' mb='4'>
         Monitorias
       </Text>
       {!!state.error && (
