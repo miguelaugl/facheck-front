@@ -82,5 +82,6 @@ describe('Home Component', () => {
     fireEvent.click(screen.getByTestId('reload'))
     expect(loadMonitoringsSpy.callsCount).toBe(1)
     await waitFor(() => screen.getByRole('heading'))
+    expect(screen.queryByTestId('reload')).not.toBeInTheDocument()
   })
 })
