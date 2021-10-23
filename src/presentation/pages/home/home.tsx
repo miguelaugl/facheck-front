@@ -1,4 +1,4 @@
-import { Flex, Text } from '@chakra-ui/react'
+import { Flex, Text, Button } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 
 import { LoadMonitorings } from '@/domain/usecases'
@@ -21,7 +21,7 @@ export const Home = ({ loadMonitorings }: Props): JSX.Element => {
     reload: false,
   })
   const handleReload = (): void => {
-    setState((prevState) => ({ ...prevState, reload: !prevState.reload }))
+    setState((prevState) => ({ ...prevState, reload: !prevState.reload, error: '' }))
   }
   useEffect(() => {
     loadMonitorings
@@ -35,14 +35,14 @@ export const Home = ({ loadMonitorings }: Props): JSX.Element => {
         Monitorias
       </Text>
       {!!state.error && (
-        <>
-          <Text color='red.500' data-testid='error'>
+        <Flex align='center' justify='center' direction='column' py='8'>
+          <Text fontWeight='medium' fontSize='xl' data-testid='error' mb='4'>
             {state.error}
           </Text>
-          <button data-testid='reload' onClick={handleReload}>
+          <Button data-testid='reload' onClick={handleReload}>
             Tentar novamente
-          </button>
-        </>
+          </Button>
+        </Flex>
       )}
       {!state.error && (
         <Flex as='ul' data-testid='monitoring-list'>
