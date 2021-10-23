@@ -1,5 +1,5 @@
 import { HttpClient, HttpStatusCode } from '@/data/protocols'
-import { UnexpectedError } from '@/domain/errors'
+import { AccessDeniedError, UnexpectedError } from '@/domain/errors'
 import { AddMonitoring } from '@/domain/usecases'
 
 export class RemoteAddMonitoring implements AddMonitoring {
@@ -11,6 +11,9 @@ export class RemoteAddMonitoring implements AddMonitoring {
       method: 'POST',
       body: params,
     })
+    if (httpResponse.statusCode === HttpStatusCode.FORBIDDEN) {
+      throw new AccessDeniedError()
+    }
     if (httpResponse.statusCode !== HttpStatusCode.SUCCESS) {
       throw new UnexpectedError()
     }
