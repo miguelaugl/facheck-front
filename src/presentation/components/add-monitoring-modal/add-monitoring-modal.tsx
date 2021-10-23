@@ -34,6 +34,7 @@ const validationSchema = yup.object().shape({
   subject: yup.string().required(),
   initHour: yup.string().required().militaryTime().length(5),
   endHour: yup.string().required().militaryTime().length(5),
+  room: yup.string().required().max(50),
 })
 
 export const AddMonitoringModal = ({ isOpen, onClose }: Props): JSX.Element => {
@@ -72,7 +73,7 @@ export const AddMonitoringModal = ({ isOpen, onClose }: Props): JSX.Element => {
                     <Field name='initHour' label='Início:' helperText='Formato hh:mm' mask='militaryTime' maxLength={5} component={FormikInput} />
                     <Field name='endHour' label='Final:' helperText='Formato hh:mm' mask='militaryTime' maxLength={5} component={FormikInput} />
                   </HStack>
-                  <Field name='room' label='Sala:' helperText='Formato hh:mm' component={FormikInput} />
+                  <Field name='room' label='Sala:' helperText='Formato hh:mm' component={FormikInput} maxLength={50} />
                 </Stack>
                 <ModalFooter>
                   <Button variant='ghost' onClick={() => handleClose(resetForm)} mr='3'>
