@@ -27,6 +27,7 @@ export const MonitorSection = (): JSX.Element => {
             xl: '16px',
           }}
           py='12px'
+          textTransform='uppercase'
         >
           Monitor
         </Text>

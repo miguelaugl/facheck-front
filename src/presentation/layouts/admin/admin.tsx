@@ -19,7 +19,7 @@ export const AdminLayout = ({ children }: Props): JSX.Element => {
         <Sidebar />
         <Box
           __css={{
-            float: 'right',
+            marginLeft: 'auto',
             maxWidth: '100%',
             overflow: 'auto',
             position: 'relative',
@@ -34,6 +34,7 @@ export const AdminLayout = ({ children }: Props): JSX.Element => {
             xl: 'calc(100% - 275px)',
           }}
           padding='30px 15px'
+          pl='30px'
         >
           <Navbar />
           {children}

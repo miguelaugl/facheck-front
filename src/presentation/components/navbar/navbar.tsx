@@ -13,12 +13,14 @@ export const Navbar = (): JSX.Element => {
   const activeRoute = routes.find((route) => route.path === location.pathname)
   return (
     <Flex w='100%' justifyContent='space-between' alignItems='center' padding='2' paddingLeft='4' paddingRight='8' mb='8'>
-      <Text data-testid='screen-name' fontSize='2xl' fontWeight='medium'>
+      <Text color='black' data-testid='screen-name' fontSize='md' fontWeight='medium'>
         {activeRoute.name}
       </Text>
-      <Flex alignItems='center'>
+      <Flex alignItems='center' color='gray'>
         <Icon as={HiUser} me='2' boxSize='1.5rem' />
-        <Text data-testid='username'>{account.name}</Text>
+        <Text fontWeight='medium' data-testid='username'>
+          {account.name}
+        </Text>
       </Flex>
     </Flex>
   )

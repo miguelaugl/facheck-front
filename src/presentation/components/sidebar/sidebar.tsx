@@ -16,7 +16,7 @@ export const Sidebar = (): JSX.Element => {
   return (
     <Box display={{ base: 'none', xl: 'block' }} position='fixed'>
       <Flex
-        bg='none'
+        bg='white'
         transition='0.2s linear'
         w='260px'
         maxW='260px'
@@ -30,7 +30,7 @@ export const Sidebar = (): JSX.Element => {
         ps='20px'
         pe='20px'
         m='0px'
-        borderRadius='0px'
+        borderRadius='16px'
         direction='column'
       >
         <Logo />

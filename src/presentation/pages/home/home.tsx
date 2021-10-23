@@ -1,4 +1,4 @@
-import { Flex, Text, Button } from '@chakra-ui/react'
+import { Flex, Text, Button, Grid } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 
 import { LoadMonitorings } from '@/domain/usecases'
@@ -31,7 +31,7 @@ export const Home = ({ loadMonitorings }: Props): JSX.Element => {
   }, [state.reload])
   return (
     <AdminLayout>
-      <Text as='h2' fontSize='2xl' fontWeight='medium' mb='4'>
+      <Text as='h2' fontSize='xl' fontWeight='medium' mb='4'>
         Monitorias
       </Text>
       {!!state.error && (
@@ -45,11 +45,11 @@ export const Home = ({ loadMonitorings }: Props): JSX.Element => {
         </Flex>
       )}
       {!state.error && (
-        <Flex as='ul' data-testid='monitoring-list'>
+        <Grid as='ul' data-testid='monitoring-list' templateColumns='repeat(auto-fill, minmax(250px, 1fr))' gap={4}>
           {state.monitorings.map((monitoring) => (
             <MonitoringItem key={monitoring.id} monitoring={monitoring} />
           ))}
-        </Flex>
+        </Grid>
       )}
     </AdminLayout>
   )

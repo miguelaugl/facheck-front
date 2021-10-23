@@ -1,4 +1,4 @@
-import { Button, Flex, Icon, useColorModeValue, Text, ButtonProps } from '@chakra-ui/react'
+import { Button, Flex, Icon, Text, ButtonProps } from '@chakra-ui/react'
 
 import { IconBox } from '@/presentation/components'
 
@@ -9,16 +9,15 @@ type Props = {
 } & ButtonProps
 
 export const LinkButton = ({ text, icon, isActive, ...rest }: Props): JSX.Element => {
-  const activeBg = useColorModeValue('white', 'gray.700')
-  const inactiveBg = useColorModeValue('white', 'gray.700')
-  const activeColor = useColorModeValue('gray.700', 'white')
-  const inactiveColor = useColorModeValue('gray.400', 'gray.400')
+  const activeBg = 'white'
+  const inactiveBg = 'gray.100'
+  const activeColor = 'gray.700'
+  const inactiveColor = 'gray.400'
   return (
     <Button
       boxSize='initial'
       justifyContent='flex-start'
       alignItems='center'
-      boxShadow={isActive ? '0px 7px 11px rgba(0, 0, 0, 0.04)' : 'none'}
       bg={isActive ? activeBg : 'transparent'}
       mb={{
         xl: '12px',
@@ -59,7 +58,7 @@ export const LinkButton = ({ text, icon, isActive, ...rest }: Props): JSX.Elemen
             {icon}
           </IconBox>
         )}
-        <Text color={isActive ? activeColor : inactiveColor} my='auto' fontSize='sm'>
+        <Text color={isActive ? activeColor : inactiveColor} my='auto' fontSize='sm' fontWeight='semibold'>
           {text}
         </Text>
       </Flex>
