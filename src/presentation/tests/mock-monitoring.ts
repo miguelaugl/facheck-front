@@ -13,8 +13,10 @@ export class LoadMonitoringsSpy implements LoadMonitorings {
 
 export class AddMonitoringSpy implements AddMonitoring {
   params: AddMonitoring.Params
+  callsCount = 0
 
   async add(params: AddMonitoring.Params): Promise<void> {
+    this.callsCount += 1
     this.params = params
   }
 }

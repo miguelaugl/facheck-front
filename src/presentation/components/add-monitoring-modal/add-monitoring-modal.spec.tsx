@@ -95,4 +95,17 @@ describe('AddMonitoringModal Component', () => {
     await waitFor(() => addMonitoringSpy.add)
     expect(addMonitoringSpy.params).toEqual(addMonitoringParams)
   })
+
+  it('should not call AddMonitoring if form is invalid', async () => {
+    const { addMonitoringSpy } = makeSut()
+    const addMonitoringParams = mockAddMonitoringParams()
+    await simulateFieldInteraction('subject', addMonitoringParams.subject)
+    await simulateFieldInteraction('initHour', addMonitoringParams.initHour)
+    await simulateFieldInteraction('endHour', addMonitoringParams.endHour)
+    await simulateFieldInteraction('room', addMonitoringParams.room)
+    act(() => {
+      fireEvent.click(screen.getByText(/adicionar$/i))
+    })
+    expect(addMonitoringSpy.callsCount).toEqual(0)
+  })
 })
