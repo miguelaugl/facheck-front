@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react'
+import faker from 'faker'
 
 import { validationMessages } from '@/presentation/config/yup'
 
@@ -45,5 +46,16 @@ describe('AddMonitoringModal Component', () => {
     expect(await screen.findByTestId('endHour-error-message')).toHaveTextContent(validationMessages.mixed.required as string)
     fireEvent.input(endHourInput, { target: { value: '32:40' } })
     expect(await screen.findByTestId('endHour-error-message')).toHaveTextContent(validationMessages.militaryTime)
+  })
+
+  it('should show room validation error', async () => {
+    makeSut()
+    const roomInput = screen.getByTestId('room')
+    fireEvent.blur(roomInput)
+    expect(await screen.findByTestId('room-error-message')).toHaveTextContent(validationMessages.mixed.required as string)
+    const roomMaxLength = '50'
+    const maxLengthMessage = (validationMessages.string.max as string).replace(/\${max}/, roomMaxLength)
+    fireEvent.input(roomInput, { target: { value: faker.lorem.lines(10) } })
+    expect(await screen.findByTestId('room-error-message')).toHaveTextContent(maxLengthMessage)
   })
 })
