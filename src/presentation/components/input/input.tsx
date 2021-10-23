@@ -6,9 +6,6 @@ export type InputProps = {
    * defauls to text
    */
   type?: HTMLInputTypeAttribute
-  /**
-   * defauls to true
-   */
   id?: string
   label: string
   placeholder?: string
@@ -16,6 +13,9 @@ export type InputProps = {
   value?: string
   onChange?: ChangeEventHandler<HTMLInputElement>
   onBlur?: FocusEventHandler<HTMLInputElement>
+  /**
+   * defauls to Inválido
+   */
   errorMessage?: string
   helperText?: string
   leftIcon?: React.ReactNode
