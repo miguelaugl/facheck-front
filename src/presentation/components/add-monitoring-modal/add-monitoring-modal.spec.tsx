@@ -37,4 +37,13 @@ describe('AddMonitoringModal Component', () => {
     fireEvent.input(initHourInput, { target: { value: '32:40' } })
     expect(await screen.findByTestId('initHour-error-message')).toHaveTextContent(validationMessages.militaryTime)
   })
+
+  it('should show endHour validation error', async () => {
+    makeSut()
+    const endHourInput = screen.getByTestId('endHour')
+    fireEvent.blur(endHourInput)
+    expect(await screen.findByTestId('endHour-error-message')).toHaveTextContent(validationMessages.mixed.required as string)
+    fireEvent.input(endHourInput, { target: { value: '32:40' } })
+    expect(await screen.findByTestId('endHour-error-message')).toHaveTextContent(validationMessages.militaryTime)
+  })
 })
