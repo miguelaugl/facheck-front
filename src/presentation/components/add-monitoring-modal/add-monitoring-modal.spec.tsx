@@ -1,4 +1,6 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+
+import { validationMessages } from '@/presentation/config/yup'
 
 import { AddMonitoringModal } from './add-monitoring-modal'
 
@@ -18,5 +20,14 @@ describe('AddMonitoringModal Component', () => {
     })
     expect(screen.getByTestId('initHour')).not.toHaveValue()
     expect(screen.getByTestId('endHour')).not.toHaveValue()
+  })
+
+  it('should show subject validation error', async () => {
+    makeSut()
+    const subjectInput = screen.getByTestId('subject')
+    await waitFor(() => {
+      fireEvent.blur(subjectInput)
+    })
+    expect(await screen.findByTestId('subject-error-message')).toHaveTextContent(validationMessages.mixed.required as string)
   })
 })
