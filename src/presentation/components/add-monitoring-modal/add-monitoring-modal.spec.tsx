@@ -1,5 +1,6 @@
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 
+import { UnexpectedError } from '@/domain/errors'
 import { mockAccountModel, mockAddMonitoringParams } from '@/domain/tests'
 import { validationMessages } from '@/presentation/config/yup'
 import { ApiContext, UseCasesContext } from '@/presentation/contexts'
@@ -7,15 +8,18 @@ import { AddMonitoringSpy, simulateFieldInteraction } from '@/presentation/tests
 
 import { AddMonitoringModal } from './add-monitoring-modal'
 
+jest.useFakeTimers('legacy')
+
 type SutTypes = {
   addMonitoringSpy: AddMonitoringSpy
   onClose: () => void
+  container: HTMLElement
 }
 
 const makeSut = (account = mockAccountModel()): SutTypes => {
   const addMonitoringSpy = new AddMonitoringSpy()
   const onClose = jest.fn()
-  render(
+  const { container } = render(
     <UseCasesContext.Provider value={{ addMonitoring: addMonitoringSpy }}>
       <ApiContext.Provider value={{ getCurrentAccount: () => account }}>
         <AddMonitoringModal isOpen onClose={onClose} />
@@ -25,10 +29,33 @@ const makeSut = (account = mockAccountModel()): SutTypes => {
   return {
     addMonitoringSpy,
     onClose,
+    container,
   }
 }
 
 describe('AddMonitoringModal Component', () => {
+  it('should show toast if AddMonitoring throws', async () => {
+    const { addMonitoringSpy } = makeSut()
+    const error = new UnexpectedError()
+    jest.spyOn(addMonitoringSpy, 'add').mockImplementationOnce(() => {
+      throw error
+    })
+    const addMonitoringParams = mockAddMonitoringParams()
+    await simulateFieldInteraction('subject', addMonitoringParams.subject)
+    await simulateFieldInteraction('initHour', addMonitoringParams.initHour)
+    await simulateFieldInteraction('endHour', addMonitoringParams.endHour)
+    await simulateFieldInteraction('room', addMonitoringParams.room)
+    const weekdayBtns = screen.getAllByTestId('weekday-btn')
+    await waitFor(() => {
+      fireEvent.click(weekdayBtns[addMonitoringParams.weekday])
+    })
+    act(() => {
+      fireEvent.click(screen.getByText(/adicionar$/i))
+    })
+    await waitFor(() => addMonitoringSpy.add)
+    expect(screen.getByRole('alert')).toBeInTheDocument()
+  })
+
   it('should close Modal on cancel click', () => {
     const { onClose } = makeSut()
     expect(screen.getByText(/adicionar$/i)).toBeInTheDocument()
