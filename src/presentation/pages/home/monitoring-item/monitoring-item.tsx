@@ -6,6 +6,8 @@ type Props = {
   monitoring: LoadMonitorings.Model
 }
 
+const fullDays = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']
+
 export const MonitoringItem = ({ monitoring }: Props): JSX.Element => {
   return (
     <Flex
@@ -21,15 +23,15 @@ export const MonitoringItem = ({ monitoring }: Props): JSX.Element => {
       data-testid='monitoring-item'
     >
       <Avatar size='xl' name={monitoring.monitor.name} mb='4' bg='purple.500' />
-      <Text>{monitoring.monitor.name} </Text>
-      <Text fontSize='lg' fontWeight='medium'>
+      <Text data-testid='monitor-name'>{monitoring.monitor.name} </Text>
+      <Text fontSize='lg' fontWeight='medium' data-testid='subject'>
         {monitoring.subject}
       </Text>
-      <Text>{monitoring.weekday}</Text>
-      <Text fontSize='sm'>
+      <Text data-testid='weekday'>{fullDays[monitoring.weekday]}</Text>
+      <Text fontSize='sm' data-testid='period'>
         Das {monitoring.initHour}h até {monitoring.endHour}h
       </Text>
-      <Text>{monitoring.room}</Text>
+      <Text data-testid='room'>{monitoring.room}</Text>
     </Flex>
   )
 }
