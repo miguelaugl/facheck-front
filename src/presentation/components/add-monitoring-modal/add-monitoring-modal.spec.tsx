@@ -55,7 +55,7 @@ describe('AddMonitoringModal Component', () => {
     expect(await screen.findByTestId('room-error-message')).toHaveTextContent(validationMessages.mixed.required as string)
     const roomMaxLength = '50'
     const maxLengthMessage = (validationMessages.string.max as string).replace(/\${max}/, roomMaxLength)
-    fireEvent.input(roomInput, { target: { value: faker.lorem.lines(10) } })
+    fireEvent.input(roomInput, { target: { value: faker.lorem.lines(30) } })
     expect(await screen.findByTestId('room-error-message')).toHaveTextContent(maxLengthMessage)
   })
 })

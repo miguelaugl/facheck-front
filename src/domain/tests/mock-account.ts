@@ -4,6 +4,7 @@ import { AccountModel } from '@/domain/models'
 import { AddAccount } from '@/domain/usecases'
 
 export const mockAccountModel = (): AccountModel => ({
+  id: faker.datatype.uuid(),
   accessToken: faker.datatype.uuid(),
   name: faker.name.findName(),
 })

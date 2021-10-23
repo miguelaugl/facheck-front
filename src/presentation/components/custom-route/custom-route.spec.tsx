@@ -11,7 +11,7 @@ describe('CustomRoute Component', () => {
     const history = createMemoryHistory()
     const PrivateComponent = (): JSX.Element => <>Private</>
     render(
-      <ApiContext.Provider value={{ getCurrentAccount: () => ({ accessToken: 'any_token', name: 'any_name' }) }}>
+      <ApiContext.Provider value={{ getCurrentAccount: () => ({ id: 'any_id', accessToken: 'any_token', name: 'any_name' }) }}>
         <Router history={history}>
           <CustomRoute isPrivate component={PrivateComponent} />
         </Router>
@@ -24,7 +24,7 @@ describe('CustomRoute Component', () => {
     const history = createMemoryHistory()
     const PublicComponent = (): JSX.Element => <>Public</>
     render(
-      <ApiContext.Provider value={{ getCurrentAccount: () => ({ accessToken: 'any_token', name: 'any_name' }) }}>
+      <ApiContext.Provider value={{ getCurrentAccount: () => ({ id: 'any_id', accessToken: 'any_token', name: 'any_name' }) }}>
         <Router history={history}>
           <CustomRoute component={PublicComponent} />
         </Router>
