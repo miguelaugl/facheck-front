@@ -3,6 +3,7 @@ import faker from 'faker'
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router'
 
+import { UnexpectedError } from '@/domain/errors'
 import { mockAddAccountParams } from '@/domain/tests'
 import { validationMessages } from '@/presentation/config/yup'
 import { ApiContext } from '@/presentation/contexts'
@@ -51,6 +52,17 @@ const makeSut = (): SutTypes => {
 }
 
 describe('SignUp Component', () => {
+  it('should show toast if AddAccount throws', async () => {
+    const { addAccountSpy } = makeSut()
+    const error = new UnexpectedError()
+    jest.spyOn(addAccountSpy, 'add').mockImplementationOnce(() => {
+      throw error
+    })
+    await simulateValidSubmit()
+    await waitFor(() => addAccountSpy.add)
+    expect(screen.getByRole('alert')).toBeInTheDocument()
+  })
+
   it('should start with correct initial state', () => {
     makeSut()
     expect(screen.getByTestId('submit')).toBeDisabled()
