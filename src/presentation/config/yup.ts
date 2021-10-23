@@ -44,6 +44,7 @@ export const validationMessages = {
   passwordStrength: 'Deve conter 8 caracteres, uma letra maiúscula, uma letra minúscula, um número e um caractere especial.',
   onlyDigits: 'Deve conter apenas dígitos.',
   cpf: 'Deve ter um formato de CPF válido.',
+  militaryTime: 'Deve ter o formato HH:MM',
 }
 
 yup.addMethod(yup.string, 'integer', function () {
@@ -61,6 +62,10 @@ const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,
 
 yup.addMethod(yup.string, 'passwordStrength', function (regex = passwordRegex, message = validationMessages.passwordStrength) {
   return this.matches(regex, message)
+})
+
+yup.addMethod(yup.string, 'militaryTime', function () {
+  return this.matches(/^([01]\d|2[0-3]):?([0-5]\d)$/, validationMessages.militaryTime)
 })
 
 yup.setLocale(defaultConfig)

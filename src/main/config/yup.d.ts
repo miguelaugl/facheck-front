@@ -7,5 +7,6 @@ declare module 'yup' {
     integer: () => StringSchema<TType, TContext>
     cpf: () => StringSchema<TType, TContext>
     passwordStrength: (regex?: RegExp, message?: string) => StringSchema<TType, TContext>
+    militaryTime: () => StringSchema<TType, TContext>
   }
 }

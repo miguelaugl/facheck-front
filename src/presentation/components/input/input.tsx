@@ -41,6 +41,7 @@ const InputComponent = ({
   errorMessage = 'Inválido',
   isDisabled,
   isInvalid,
+  isTouched,
   maxLength,
 }: InputProps): JSX.Element => {
   return (
@@ -63,7 +64,7 @@ const InputComponent = ({
         />
         {rightElement}
       </InputGroup>
-      <FormHelperText>{helperText}</FormHelperText>
+      {!isInvalid && <FormHelperText>{helperText}</FormHelperText>}
       <FormErrorMessage data-testid={`${name}-error-message`}>{errorMessage}</FormErrorMessage>
     </FormControl>
   )

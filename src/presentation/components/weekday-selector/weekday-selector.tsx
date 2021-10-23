@@ -93,7 +93,7 @@ export const WeekdaySelector = ({
           )
         })}
       </HStack>
-      <FormHelperText>{helperText}</FormHelperText>
+      {!errorMessage && <FormHelperText>{helperText}</FormHelperText>}
       <FormErrorMessage>{errorMessage}</FormErrorMessage>
     </FormControl>
   )
