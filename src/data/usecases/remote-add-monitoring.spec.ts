@@ -2,7 +2,7 @@ import faker from 'faker'
 
 import { HttpStatusCode } from '@/data/protocols'
 import { HttpClientSpy } from '@/data/tests'
-import { UnexpectedError } from '@/domain/errors'
+import { AccessDeniedError, UnexpectedError } from '@/domain/errors'
 import { mockAddMonitoringParams } from '@/domain/tests'
 
 import { RemoteAddMonitoring } from './remote-add-monitoring'
@@ -30,6 +30,15 @@ describe('AddMonitoring Usecase', () => {
     expect(httpClientSpy.url).toBe(url)
     expect(httpClientSpy.method).toBe('POST')
     expect(httpClientSpy.body).toEqual(addMonitoringParams)
+  })
+
+  it('should throw AccessDenied if HttpClient returns 403', async () => {
+    const { sut, httpClientSpy } = makeSut()
+    httpClientSpy.response = {
+      statusCode: HttpStatusCode.FORBIDDEN,
+    }
+    const promise = sut.add(mockAddMonitoringParams())
+    await expect(promise).rejects.toThrow(new AccessDeniedError())
   })
 
   it('should throw UnexpectedError if HttpClient returns 400', async () => {
