@@ -33,6 +33,7 @@ type Props = {
 const validationSchema = yup.object().shape({
   subject: yup.string().required(),
   initHour: yup.string().required().militaryTime().length(5),
+  endHour: yup.string().required().militaryTime().length(5),
 })
 
 export const AddMonitoringModal = ({ isOpen, onClose }: Props): JSX.Element => {
@@ -69,7 +70,7 @@ export const AddMonitoringModal = ({ isOpen, onClose }: Props): JSX.Element => {
                   <Field name='weekday' component={FormikWeekdaySelector} />
                   <HStack spacing='3' align='flex-start'>
                     <Field name='initHour' label='Início:' helperText='Formato hh:mm' mask='militaryTime' maxLength={5} component={FormikInput} />
-                    <Field name='endHour' label='Final:' helperText='Formato hh:mm' component={FormikInput} />
+                    <Field name='endHour' label='Final:' helperText='Formato hh:mm' mask='militaryTime' maxLength={5} component={FormikInput} />
                   </HStack>
                   <Field name='room' label='Sala:' helperText='Formato hh:mm' component={FormikInput} />
                 </Stack>
