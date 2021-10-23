@@ -1,6 +1,6 @@
 import { Box, ScaleFade } from '@chakra-ui/react'
 
-import { Navbar, Sidebar } from '@/presentation/components'
+import { Footer, Navbar, Sidebar } from '@/presentation/components'
 
 type Props = {
   children: React.ReactNode
@@ -28,6 +28,9 @@ export const AdminLayout = ({ children }: Props): JSX.Element => {
             transitionDuration: '.2s, .2s, .35s',
             transitionProperty: 'top, bottom, width',
             transitionTimingFunction: 'linear, linear, ease',
+            minHeight: '100vh',
+            display: 'flex',
+            flexDirection: 'column',
           }}
           w={{
             base: '100%',
@@ -38,6 +41,7 @@ export const AdminLayout = ({ children }: Props): JSX.Element => {
         >
           <Navbar />
           {children}
+          <Footer />
         </Box>
       </Box>
     </ScaleFade>

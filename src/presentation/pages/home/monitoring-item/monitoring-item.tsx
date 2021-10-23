@@ -22,7 +22,7 @@ export const MonitoringItem = ({ monitoring }: Props): JSX.Element => {
       data-testid='monitoring-item'
       transition='transform ease .2s'
       _hover={{
-        transform: 'scale(1.05)',
+        transform: 'scale(1.02)',
       }}
     >
       <Avatar size='xl' name={monitoring.monitor.name} mb='4' color='white' bg={colors[monitoring.weekday % 2]} />
