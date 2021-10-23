@@ -32,6 +32,7 @@ type Props = {
 
 const validationSchema = yup.object().shape({
   subject: yup.string().required(),
+  weekday: yup.number().required(),
   initHour: yup.string().required().militaryTime().length(5),
   endHour: yup.string().required().militaryTime().length(5),
   room: yup.string().required().max(50),
