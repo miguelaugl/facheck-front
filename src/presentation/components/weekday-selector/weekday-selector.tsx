@@ -76,17 +76,22 @@ export const WeekdaySelector = ({
     <FormControl isDisabled={isDisabled} isInvalid={isInvalid}>
       <FormLabel>{label}</FormLabel>
       <HStack spacing='3'>
-        {options.map((option) => (
-          <Tooltip label={option.fullLabel} key={option.value} placement='top'>
-            <Button
-              variant={option.value === value ? 'solid' : 'outline'}
-              flexGrow={1}
-              onClick={(e: MouseEvent<HTMLButtonElement>) => onClick(e, option.value)}
-            >
-              {option.label}
-            </Button>
-          </Tooltip>
-        ))}
+        {options.map((option) => {
+          const isSelected = option.value === value
+          return (
+            <Tooltip label={option.fullLabel} key={option.value} placement='top'>
+              <Button
+                variant={isSelected ? 'solid' : 'outline'}
+                className={isSelected ? 'selected' : ''}
+                flexGrow={1}
+                onClick={(e: MouseEvent<HTMLButtonElement>) => onClick(e, option.value)}
+                data-testid='weekday-btn'
+              >
+                {option.label}
+              </Button>
+            </Tooltip>
+          )
+        })}
       </HStack>
       <FormHelperText>{helperText}</FormHelperText>
       <FormErrorMessage>{errorMessage}</FormErrorMessage>

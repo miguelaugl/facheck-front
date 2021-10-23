@@ -2,10 +2,10 @@ import { AddIcon } from '@chakra-ui/icons'
 import { Text, useColorModeValue, useDisclosure } from '@chakra-ui/react'
 import { useContext } from 'react'
 
+import { AddMonitoringModal } from '@/presentation/components'
 import { ApiContext } from '@/presentation/contexts'
 
 import { LinkButton } from '../link-button'
-import { AddMonitoringModal } from './add-monitoring-modal'
 
 export const MonitorSection = (): JSX.Element => {
   const activeColor = useColorModeValue('gray.700', 'white')
