@@ -12,10 +12,12 @@ import {
   Stack,
 } from '@chakra-ui/react'
 import { Field, Form, Formik } from 'formik'
+import { useContext } from 'react'
 import * as yup from 'yup'
 
 import { Weekday } from '@/domain/models'
 import { FormikInput, FormikWeekdaySelector } from '@/presentation/components'
+import { ApiContext, UseCasesContext } from '@/presentation/contexts'
 
 type FormValues = {
   subject: string
@@ -39,9 +41,16 @@ const validationSchema = yup.object().shape({
 })
 
 export const AddMonitoringModal = ({ isOpen, onClose }: Props): JSX.Element => {
+  const { addMonitoring } = useContext(UseCasesContext)
+  const { getCurrentAccount } = useContext(ApiContext)
   const toast = useToast()
   const onSubmit = async (values: FormValues): Promise<void> => {
-    console.log('Submitted with values: ', values)
+    const account = getCurrentAccount()
+    const addMonitoringParams = {
+      ...values,
+      monitorId: account.id,
+    }
+    await addMonitoring.add(addMonitoringParams)
     toast({
       status: 'success',
       position: 'top',
