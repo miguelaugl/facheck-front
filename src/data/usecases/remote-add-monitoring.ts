@@ -14,8 +14,9 @@ export class RemoteAddMonitoring implements AddMonitoring {
     if (httpResponse.statusCode === HttpStatusCode.FORBIDDEN) {
       throw new AccessDeniedError()
     }
-    if (httpResponse.statusCode !== HttpStatusCode.SUCCESS) {
-      throw new UnexpectedError()
+    if (httpResponse.statusCode === HttpStatusCode.NO_CONTENT) {
+      return null
     }
+    throw new UnexpectedError()
   }
 }
