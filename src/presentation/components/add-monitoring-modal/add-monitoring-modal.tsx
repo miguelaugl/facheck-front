@@ -11,7 +11,7 @@ import {
   useToast,
   Stack,
 } from '@chakra-ui/react'
-import { Field, Form, Formik } from 'formik'
+import { Field, Form, Formik, FormikHelpers } from 'formik'
 import { useContext } from 'react'
 import * as yup from 'yup'
 
@@ -44,18 +44,28 @@ export const AddMonitoringModal = ({ isOpen, onClose }: Props): JSX.Element => {
   const { addMonitoring } = useContext(UseCasesContext)
   const { getCurrentAccount } = useContext(ApiContext)
   const toast = useToast()
-  const onSubmit = async (values: FormValues): Promise<void> => {
-    const account = getCurrentAccount()
-    const addMonitoringParams = {
-      ...values,
-      monitorId: account.id,
+  const onSubmit = async (values: FormValues, { resetForm }: FormikHelpers<FormValues>): Promise<void> => {
+    try {
+      const account = getCurrentAccount()
+      const addMonitoringParams = {
+        ...values,
+        monitorId: account.id,
+      }
+      await addMonitoring.add(addMonitoringParams)
+      toast({
+        status: 'success',
+        position: 'top',
+        description: 'Monitoria criada com sucesso.',
+      })
+      onClose()
+      resetForm()
+    } catch (error) {
+      toast({
+        status: 'error',
+        position: 'top',
+        description: error.message,
+      })
     }
-    await addMonitoring.add(addMonitoringParams)
-    toast({
-      status: 'success',
-      position: 'top',
-      description: 'Monitoria criado com sucesso.',
-    })
   }
   const handleClose = (resetForm: () => void): void => {
     onClose()
@@ -83,7 +93,7 @@ export const AddMonitoringModal = ({ isOpen, onClose }: Props): JSX.Element => {
                     <Field name='initHour' label='Início:' helperText='Formato hh:mm' mask='militaryTime' maxLength={5} component={FormikInput} />
                     <Field name='endHour' label='Final:' helperText='Formato hh:mm' mask='militaryTime' maxLength={5} component={FormikInput} />
                   </HStack>
-                  <Field name='room' label='Sala:' helperText='Formato hh:mm' component={FormikInput} maxLength={50} />
+                  <Field name='room' label='Sala:' component={FormikInput} maxLength={50} />
                 </Stack>
                 <ModalFooter>
                   <Button variant='ghost' onClick={() => handleClose(resetForm)} mr='3'>
