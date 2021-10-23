@@ -14,6 +14,10 @@ type SutTypes = {
 
 const makeSut = (url = faker.internet.url()): SutTypes => {
   const httpClientSpy = new HttpClientSpy()
+  httpClientSpy.response = {
+    statusCode: HttpStatusCode.NO_CONTENT,
+    body: null,
+  }
   const sut = new RemoteAddMonitoring(url, httpClientSpy)
   return {
     sut,
@@ -66,5 +70,11 @@ describe('AddMonitoring Usecase', () => {
     }
     const promise = sut.add(mockAddMonitoringParams())
     await expect(promise).rejects.toThrow(new UnexpectedError())
+  })
+
+  it('should not return if HttpClient returns 204', async () => {
+    const { sut } = makeSut()
+    const result = await sut.add(mockAddMonitoringParams())
+    expect(result).toBe(null)
   })
 })
