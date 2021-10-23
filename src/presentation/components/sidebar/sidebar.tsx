@@ -14,7 +14,7 @@ export const Sidebar = (): JSX.Element => {
   const logout = useLogout()
   const { routes } = useContext(RoutesContext)
   return (
-    <Box display={{ sm: 'none', xl: 'block' }} position='fixed'>
+    <Box display={{ base: 'none', xl: 'block' }} position='fixed'>
       <Flex
         bg='none'
         transition='0.2s linear'

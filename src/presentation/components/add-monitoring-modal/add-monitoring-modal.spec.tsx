@@ -9,6 +9,7 @@ import { AddMonitoringModal } from './add-monitoring-modal'
 
 type SutTypes = {
   addMonitoringSpy: AddMonitoringSpy
+  onClose: () => void
 }
 
 const makeSut = (account = mockAccountModel()): SutTypes => {
@@ -23,10 +24,20 @@ const makeSut = (account = mockAccountModel()): SutTypes => {
   )
   return {
     addMonitoringSpy,
+    onClose,
   }
 }
 
 describe('AddMonitoringModal Component', () => {
+  it('should close Modal on cancel click', () => {
+    const { onClose } = makeSut()
+    expect(screen.getByText(/adicionar$/i)).toBeInTheDocument()
+    act(() => {
+      fireEvent.click(screen.getByText(/cancelar/i))
+    })
+    expect(onClose).toHaveBeenCalledTimes(1)
+  })
+
   it('should start with correct initial state', () => {
     makeSut()
     expect(screen.getByText(/adicionar$/i)).toBeDisabled()
