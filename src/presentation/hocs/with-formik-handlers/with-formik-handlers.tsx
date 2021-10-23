@@ -3,6 +3,7 @@ import { FieldInputProps, FormikProps } from 'formik'
 import React, { ChangeEvent, FocusEvent, useCallback } from 'react'
 
 import { InputProps } from '@/presentation/components'
+import { getFormikFieldError } from '@/presentation/helpers'
 import { Mask, useMask } from '@/presentation/hooks'
 
 type FormikInputProps = InputProps & {
@@ -28,10 +29,7 @@ export const withFormikHandlers =
       },
       [form, field],
     )
-    const getFieldError = (name: string, form: FormikProps<any>): string => {
-      return form.touched[name] || form.submitCount ? form.getFieldMeta(name).error : ''
-    }
-    const errorMessage = form && getFieldError(field.name, form)
+    const errorMessage = getFormikFieldError(field.name, form)
     return (
       <Input
         {...props}
