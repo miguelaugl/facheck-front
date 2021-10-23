@@ -1,4 +1,5 @@
 import { MonitoringModel, Weekday } from '@/domain/models'
+import { AddMonitoring } from '@/domain/usecases'
 
 export const mockMonitoringModel = (): MonitoringModel => ({
   id: 'any_id',
@@ -22,3 +23,12 @@ export const mockMonitoringModels = (): MonitoringModel[] => [
     room: 'Quadra - 23',
   },
 ]
+
+export const mockAddMonitoringParams = (): AddMonitoring.Params => ({
+  monitorId: 'any_monitor_id',
+  subject: 'any_subject',
+  weekday: Weekday.WEDNESDAY,
+  initHour: '12:00',
+  endHour: '19:00',
+  room: 'Lab - 19',
+})
