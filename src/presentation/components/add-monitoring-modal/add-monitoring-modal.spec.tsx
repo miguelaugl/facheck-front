@@ -108,4 +108,26 @@ describe('AddMonitoringModal Component', () => {
     })
     expect(addMonitoringSpy.callsCount).toEqual(0)
   })
+
+  it('should call AddMonitoring only once', async () => {
+    const { addMonitoringSpy } = makeSut()
+    const addMonitoringParams = mockAddMonitoringParams()
+    await simulateFieldInteraction('subject', addMonitoringParams.subject)
+    await simulateFieldInteraction('initHour', addMonitoringParams.initHour)
+    await simulateFieldInteraction('endHour', addMonitoringParams.endHour)
+    await simulateFieldInteraction('room', addMonitoringParams.room)
+    const weekdayBtns = screen.getAllByTestId('weekday-btn')
+    await waitFor(() => {
+      fireEvent.click(weekdayBtns[addMonitoringParams.weekday])
+    })
+    const submitBtn = screen.getByText(/adicionar$/i)
+    act(() => {
+      fireEvent.click(submitBtn)
+    })
+    act(() => {
+      fireEvent.click(submitBtn)
+    })
+    await waitFor(() => addMonitoringSpy.add)
+    expect(addMonitoringSpy.callsCount).toEqual(1)
+  })
 })
