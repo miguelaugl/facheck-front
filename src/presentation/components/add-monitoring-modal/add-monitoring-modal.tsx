@@ -18,6 +18,7 @@ import * as yup from 'yup'
 import { Weekday } from '@/domain/models'
 import { FormikInput, FormikWeekdaySelector } from '@/presentation/components'
 import { ApiContext, UseCasesContext } from '@/presentation/contexts'
+import { eventEmitter, Events } from '@/presentation/event-emitter'
 
 type FormValues = {
   subject: string
@@ -52,6 +53,7 @@ export const AddMonitoringModal = ({ isOpen, onClose }: Props): JSX.Element => {
         monitorId: account.id,
       }
       await addMonitoring.add(addMonitoringParams)
+      eventEmitter.emit(Events.ADD_MONITORING)
       toast({
         status: 'success',
         position: 'top',

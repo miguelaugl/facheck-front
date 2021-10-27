@@ -2,6 +2,7 @@ import { Flex, Text, Button, Grid } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 
 import { LoadMonitorings } from '@/domain/usecases'
+import { eventEmitter, Events } from '@/presentation/event-emitter'
 import { useErrorHandler } from '@/presentation/hooks'
 import { AdminLayout } from '@/presentation/layouts'
 
@@ -29,6 +30,14 @@ export const Home = ({ loadMonitorings }: Props): JSX.Element => {
       .then((monitorings) => setState((prevState) => ({ ...prevState, monitorings })))
       .catch(handleError)
   }, [state.reload])
+  useEffect(() => {
+    const unsubscribe = eventEmitter.subscribe(Events.ADD_MONITORING, () => {
+      handleReload()
+    })
+    return () => {
+      unsubscribe()
+    }
+  }, [])
   return (
     <AdminLayout>
       <Text as='h2' fontSize='xl' fontWeight='medium' mb='4'>
