@@ -5,6 +5,7 @@ import { Router } from 'react-router-dom'
 import { AccessDeniedError, UnexpectedError } from '@/domain/errors'
 import { mockAccountModel } from '@/domain/tests'
 import { ApiContext, RoutesContext } from '@/presentation/contexts'
+import { eventEmitter, Events } from '@/presentation/event-emitter'
 import { LoadMonitoringsSpy } from '@/presentation/tests'
 
 import { Home } from './home'
@@ -83,5 +84,12 @@ describe('Home Component', () => {
     expect(loadMonitoringsSpy.callsCount).toBe(1)
     await waitFor(() => screen.getByRole('heading'))
     expect(screen.queryByTestId('reload')).not.toBeInTheDocument()
+  })
+
+  it('should call LoadSurveyList on addMonitoring event', async () => {
+    const { loadMonitoringsSpy } = makeSut()
+    expect(loadMonitoringsSpy.callsCount).toBe(1)
+    await waitFor(() => eventEmitter.emit(Events.ADD_MONITORING))
+    expect(loadMonitoringsSpy.callsCount).toBe(2)
   })
 })
