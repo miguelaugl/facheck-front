@@ -1,3 +1,5 @@
 export * from './remote-authentication'
 export * from './remote-add-account'
 export * from './remote-load-monitorings'
+export * from './remote-load-current-profile'
+export * from './remote-update-profile'

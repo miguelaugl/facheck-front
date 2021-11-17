@@ -37,7 +37,7 @@ export const AdminLayout = ({ children }: Props): JSX.Element => {
             xl: 'calc(100% - 275px)',
           }}
           padding='30px 15px'
-          pl='30px'
+          pl={{ base: '15px', md: '30px' }}
         >
           <Navbar />
           {children}

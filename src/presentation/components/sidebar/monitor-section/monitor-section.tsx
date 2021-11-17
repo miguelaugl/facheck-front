@@ -12,7 +12,7 @@ export const MonitorSection = (): JSX.Element => {
   const { getCurrentAccount } = useContext(ApiContext)
   const account = getCurrentAccount()
   const { isOpen, onOpen, onClose } = useDisclosure()
-  if (account.role === 'monitor') {
+  if (account.role === 'admin') {
     return (
       <>
         <Text

@@ -1,6 +1,7 @@
+import { FaUserCircle } from 'react-icons/fa'
 import { IoIosHome } from 'react-icons/io'
 
-import { makeHome, makeLogin, makeSignUp } from '@/main/factories/pages'
+import { makeHome, makeLogin, makeProfile, makeSignUp } from '@/main/factories/pages'
 import { CustomRouteProps } from '@/presentation/components'
 
 export const routes: CustomRouteProps[] = [
@@ -19,6 +20,14 @@ export const routes: CustomRouteProps[] = [
     name: 'Dashboard',
     component: makeHome,
     icon: <IoIosHome />,
+    isPrivate: true,
+    exact: true,
+  },
+  {
+    path: '/me',
+    name: 'Perfil',
+    component: makeProfile,
+    icon: <FaUserCircle />,
     isPrivate: true,
   },
 ]

@@ -1,4 +1,13 @@
-import { Input as ChakraInput, FormLabel, InputGroup, InputLeftElement, FormControl, FormHelperText, FormErrorMessage } from '@chakra-ui/react'
+import {
+  Input as ChakraInput,
+  FormLabel,
+  InputGroup,
+  InputLeftElement,
+  FormControl,
+  FormHelperText,
+  FormErrorMessage,
+  ChakraProps,
+} from '@chakra-ui/react'
 import React, { ChangeEventHandler, memo, HTMLInputTypeAttribute, FocusEventHandler } from 'react'
 
 export type InputProps = {
@@ -7,9 +16,9 @@ export type InputProps = {
    */
   type?: HTMLInputTypeAttribute
   id?: string
-  label: string
+  label?: string
   placeholder?: string
-  name: string
+  name?: string
   value?: string
   onChange?: ChangeEventHandler<HTMLInputElement>
   onBlur?: FocusEventHandler<HTMLInputElement>
@@ -24,7 +33,7 @@ export type InputProps = {
   isInvalid?: boolean
   maxLength?: number
   isTouched?: boolean
-}
+} & ChakraProps
 
 const InputComponent = ({
   id,
@@ -43,10 +52,11 @@ const InputComponent = ({
   isInvalid,
   isTouched,
   maxLength,
+  ...rest
 }: InputProps): JSX.Element => {
   return (
     <FormControl isDisabled={isDisabled} isInvalid={isInvalid}>
-      <FormLabel htmlFor={name}>{label}</FormLabel>
+      {label && <FormLabel htmlFor={name}>{label}</FormLabel>}
       <InputGroup>
         {leftIcon && <InputLeftElement pointerEvents='none'>{leftIcon}</InputLeftElement>}
         <ChakraInput
@@ -61,6 +71,7 @@ const InputComponent = ({
           onChange={onChange}
           onBlur={onBlur}
           maxLength={maxLength}
+          {...rest}
         />
         {rightElement}
       </InputGroup>

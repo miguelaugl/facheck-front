@@ -27,7 +27,7 @@ export const MonitoringItem = ({ monitoring }: Props): JSX.Element => {
     >
       <Avatar size='xl' name={monitoring.monitor.name} mb='4' color='white' bg={colors[monitoring.weekday % 2]} />
       <Text data-testid='monitor-name'>{monitoring.monitor.name} </Text>
-      <Text fontSize='lg' fontWeight='medium' data-testid='subject'>
+      <Text fontSize='lg' fontWeight='medium' data-testid='subject' textAlign='center'>
         {monitoring.subject}
       </Text>
       <Text data-testid='weekday'>{fullDays[monitoring.weekday]}</Text>
