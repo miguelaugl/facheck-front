@@ -19,6 +19,7 @@ import { Weekday } from '@/domain/models'
 import { FormikInput, FormikWeekdaySelector } from '@/presentation/components'
 import { ApiContext, UseCasesContext } from '@/presentation/contexts'
 import { eventEmitter, Events } from '@/presentation/event-emitter'
+import { useErrorHandler } from '@/presentation/hooks'
 
 type FormValues = {
   subject: string
@@ -42,6 +43,13 @@ const validationSchema = yup.object().shape({
 })
 
 export const AddMonitoringModal = ({ isOpen, onClose }: Props): JSX.Element => {
+  const handleError = useErrorHandler((error) => {
+    toast({
+      status: 'error',
+      position: 'top',
+      description: error.message,
+    })
+  })
   const { addMonitoring } = useContext(UseCasesContext)
   const { getCurrentAccount } = useContext(ApiContext)
   const toast = useToast()
@@ -62,11 +70,7 @@ export const AddMonitoringModal = ({ isOpen, onClose }: Props): JSX.Element => {
       onClose()
       resetForm()
     } catch (error) {
-      toast({
-        status: 'error',
-        position: 'top',
-        description: error.message,
-      })
+      handleError(error)
     }
   }
   const handleClose = (resetForm: () => void): void => {
